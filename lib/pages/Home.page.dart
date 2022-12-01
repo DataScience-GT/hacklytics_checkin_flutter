@@ -1,9 +1,12 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
 
 import "../config.dart";
 
+/// The home page
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,7 +17,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    
+//     final session =
+//     await Amplify.Auth.fetchAuthSession() as CognitoAuthSession;
+// final idToken = session.userPoolTokens!.idToken;
+// final userGroups = idToken.groups;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(Config.appName),
