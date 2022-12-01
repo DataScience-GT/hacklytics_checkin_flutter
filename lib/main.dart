@@ -35,6 +35,25 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Authenticator(
+      signUpForm: SignUpForm.custom(fields: [
+        SignUpFormField.email(required: true),
+        SignUpFormField.custom(
+            title: 'GT Email',
+            attributeKey: const CognitoUserAttributeKey.custom('gtemail'),
+            validator: ((value) {
+              // if value is not null
+              if (value != null && value.isNotEmpty) {
+                // if value is not a valid GT email
+                if (!value.contains('@gatech.edu')) {
+                  return 'Please enter a valid GT email';
+                }
+              }
+            })),
+        SignUpFormField.name(required: true),
+        SignUpFormField.birthdate(required: true),
+        SignUpFormField.password(),
+        SignUpFormField.passwordConfirmation(),
+      ]),
       child: MaterialApp(
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
