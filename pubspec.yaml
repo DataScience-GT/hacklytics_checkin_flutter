@@ -1,5 +1,5 @@
 name: hacklytics_checkin_flutter
-description: A new Flutter project.
+description: An app to scan nfc cards for DSGT's Hackathon, Hacklytics. Originaly built for Hacklytics 2023 by John Ramberger
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
