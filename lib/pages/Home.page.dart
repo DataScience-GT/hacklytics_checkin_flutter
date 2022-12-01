@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// TODO - use FutureBuilder to show loading indicator while getting the user's groups
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
