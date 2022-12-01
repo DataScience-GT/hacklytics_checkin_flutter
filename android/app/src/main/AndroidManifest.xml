@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hacklytics_checkin_flutter">
    <application
-        android:label="hacklytics_checkin_flutter"
+        android:label="Hacklytics Checkin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
