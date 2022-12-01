@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 // amplify config file
 import 'amplifyconfiguration.dart';
 
-
 dynamic configFile;
 
 void main() {
-  
   runApp(const MyApp());
 }
 
@@ -45,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         SignUpFormField.custom(
             title: 'GT Email',
             attributeKey: const CognitoUserAttributeKey.custom('gtemail'),
+            hintText: "Enter your GaTech email",
             validator: ((value) {
               // if value is not null
               if (value != null && value.isNotEmpty) {
