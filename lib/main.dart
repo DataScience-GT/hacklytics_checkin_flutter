@@ -1,41 +1,63 @@
-import "config.dart";
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_authenticator/amplify_authenticator.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
+import 'amplifyconfiguration.dart';
+
 void main() {
-  print("test: ${DSGTConfig.test["test123"].toString()}");
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    _configureAmplify();
+  }
+
+  Future<void> _configureAmplify() async {
+    try {
+      await Amplify.addPlugin(AmplifyAuthCognito());
+      await Amplify.configure(amplifyconfig);
+    } on Exception catch (e) {
+      print('Could not configure Amplify: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Hacklytics 2023",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const HomePage());
+    return Authenticator(
+      child: MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        builder: Authenticator.builder(),
+        home: const LoggedInScreen(),
+      ),
+    );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LoggedInScreen extends StatelessWidget {
+  const LoggedInScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Hacklytics 2023"),
-      ),
-      body: const Center(
-        child: Text("Hello World"),
+      body: Center(
+        child: Column(
+          children: const [
+            Text('Logged In'),
+            SignOutButton(),
+          ],
+        ),
       ),
     );
   }
