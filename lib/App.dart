@@ -2,13 +2,15 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+// import 'package:hacklytics_checkin_flutter/screens/nfc.page.dart';
 
 // amplify config file
 import 'amplifyconfiguration.dart';
 // material
 import 'package:flutter/material.dart';
 // import pages
-import "./pages/Home.page.dart";
+import "./view/Home.page.dart";
+import "./view/nfc.page.dart";
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -60,7 +62,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         builder: Authenticator.builder(),
-        home: const HomeScreen(),
+        home: NfcPage.withDependency(),
       ),
     );
   }

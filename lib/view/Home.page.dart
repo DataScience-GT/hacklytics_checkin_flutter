@@ -5,7 +5,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/test.nfc.dart';
 
-import "../config.dart";
+import '../config.dart';
 
 /// The home page
 class HomeScreen extends StatefulWidget {
