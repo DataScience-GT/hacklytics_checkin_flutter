@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:nfc_manager/nfc_manager.dart';
 
+import './read.nfc.view.dart';
+
 class NfcView extends StatelessWidget {
   const NfcView({super.key});
 
@@ -10,8 +12,13 @@ class NfcView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('NFC'),
         ),
-        body: const Center(
-          child: Text("asd"),
-        ));
+        body: Column(children: [
+          ListTile(
+            title: const Text("Read"),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ReadNfcView())),
+              trailing: const Icon(Icons.arrow_right),
+          )
+        ]));
   }
 }
