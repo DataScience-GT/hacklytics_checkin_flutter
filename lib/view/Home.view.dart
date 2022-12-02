@@ -9,15 +9,15 @@ import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 import '../config.dart';
 
 /// The home page
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
 // TODO - use FutureBuilder to show loading indicator while getting the user's groups
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
 //     final session =
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // SignOutButton(),
             ElevatedButton(
                 onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NfcPage())),
+                    MaterialPageRoute(builder: (context) => NfcView())),
                 child: Text("Nfc"))
           ],
         ),

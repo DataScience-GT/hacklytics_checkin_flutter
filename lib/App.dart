@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         builder: Authenticator.builder(),
-        home: HomeScreen(),
+        home: HomeView(),
       ),
     );
   }

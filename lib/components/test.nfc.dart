@@ -148,3 +148,4 @@ class _NFCTestState extends State<NFCTest> {
     });
   }
 }
+
