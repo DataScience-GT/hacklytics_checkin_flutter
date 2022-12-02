@@ -17,6 +17,16 @@ class _NFCTestState extends State<NFCTest> {
   ValueNotifier<dynamic> result = ValueNotifier(null);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    result.addListener(() {
+      NfcTag a = result.value;
+      print(a.data);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<bool>(

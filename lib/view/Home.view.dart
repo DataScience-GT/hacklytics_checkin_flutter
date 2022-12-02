@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/test.nfc.dart';
+import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 
 import '../config.dart';
 
@@ -30,7 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(
-          children: const [Text('Logged In'), SignOutButton(), NFCTest()],
+          children: [
+            const Text('Logged In'),
+            // SignOutButton(),
+            ElevatedButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NfcPage())),
+                child: Text("Nfc"))
+          ],
         ),
       ),
     );

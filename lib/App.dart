@@ -9,7 +9,7 @@ import 'amplifyconfiguration.dart';
 // material
 import 'package:flutter/material.dart';
 // import pages
-import "./view/Home.page.dart";
+import "./view/Home.view.dart";
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
