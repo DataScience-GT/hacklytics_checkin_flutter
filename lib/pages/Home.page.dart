@@ -3,6 +3,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hacklytics_checkin_flutter/components/test.nfc.dart';
 
 import "../config.dart";
 
@@ -29,10 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(
-          children: const [
-            Text('Logged In'),
-            SignOutButton(),
-          ],
+          children: const [Text('Logged In'), SignOutButton(), NFCTest()],
         ),
       ),
     );
