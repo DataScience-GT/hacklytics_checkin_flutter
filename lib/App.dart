@@ -10,7 +10,6 @@ import 'amplifyconfiguration.dart';
 import 'package:flutter/material.dart';
 // import pages
 import "./view/Home.page.dart";
-import "./view/nfc.page.dart";
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -62,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         builder: Authenticator.builder(),
-        home: NfcPage.withDependency(),
+        home: HomeScreen(),
       ),
     );
   }
