@@ -24,7 +24,7 @@ class _WriteNfcViewState extends State<WriteNfcView> {
         body: _writing
             ? Center(
                 child: ScanDialog(
-                userUUID: widget.user.username,
+                user: widget.user,
                 onWrite: (writeNfc) {
                   setState(() {
                     _writing = false;
@@ -33,21 +33,37 @@ class _WriteNfcViewState extends State<WriteNfcView> {
                 },
               ))
             : (_nfc.error.isNotEmpty
-                ? Center(child: Text(_nfc.error))
-                : Center(child: Text(_nfc.success))));
+                ? Row(children: [
+                    Expanded(
+                        child: Card(
+                      color: Colors.red.shade400,
+                      child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text(_nfc.error)),
+                    ))
+                  ])
+                : Row(children: [
+                    Expanded(
+                        child: Card(
+                      color: Colors.green.shade400,
+                      child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text(_nfc.success)),
+                    ))
+                  ])));
   }
 }
 
 class ScanDialog extends StatelessWidget {
-  ScanDialog({required this.userUUID, required this.onWrite, super.key}) {
+  ScanDialog({required this.user, required this.onWrite, super.key}) {
     WriteNfc(
-        userUUID: userUUID,
+        user: user,
         callback: (WriteNfc nfc) {
           onWrite(nfc);
         });
   }
 
-  final String userUUID;
+  final User user;
 
   final dynamic Function(WriteNfc nfc) onWrite;
 
