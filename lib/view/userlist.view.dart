@@ -88,7 +88,7 @@ class _UserListViewState extends State<UserListView> {
                               },
                             )),
                         Expanded(
-                            child: ListView.builder(
+                            child: ListView.separated(
                           itemCount: _filteredUsers.length,
                           itemBuilder: (context, index) {
                             return ListTile(
@@ -106,6 +106,9 @@ class _UserListViewState extends State<UserListView> {
                                                       user: _filteredUsers[
                                                           index])))
                                     });
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
                           },
                         ))
                       ]))));
