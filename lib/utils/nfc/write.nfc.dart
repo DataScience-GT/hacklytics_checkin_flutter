@@ -1,13 +1,14 @@
+import 'package:hacklytics_checkin_flutter/model/user.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 import '../../model/record.dart';
 
 class WriteNfc {
-  WriteNfc({required this.userUUID, required this.callback}) {
+  WriteNfc({required this.user, required this.callback}) {
     _init();
   }
 
-  final String userUUID;
+  final User user;
 
   /// the callback function to be called when a tag is written and processed.
   final dynamic Function(WriteNfc) callback;
@@ -37,7 +38,7 @@ class WriteNfc {
       }
 
       NdefMessage message = NdefMessage([
-        NdefRecord.createText('hacklytics://$userUUID'),
+        NdefRecord.createText('hacklytics://${user.username}'),
       ]);
 
       try {
