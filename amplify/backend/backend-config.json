@@ -87,6 +87,20 @@
           ]
         }
       ]
+    },
+    "hacklyticsportal2023listusers": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "hacklyticsportal2023",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ]
     }
   }
 }

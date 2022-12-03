@@ -13,7 +13,7 @@ exports.handler = async (event) => {
   try {
     var params = {
       UserPoolId: process.env.AUTH_HACKLYTICSPORTAL2023_USERPOOLID,
-      AttributesToGet: ["name"],
+      AttributesToGet: ["name", "email"],
     };
 
     AWS.config.update({
@@ -34,31 +34,18 @@ exports.handler = async (event) => {
     });
     var users = x.Users;
     if (users.length > 0) {
-      var user = users.find((x) => x.Username == event.arguments.user_uuid);
-      if (user) {
-        return JSON.stringify({
-          statusCode: 200,
-          //  Uncomment below to enable CORS requests
-          //  headers: {
-          //      "Access-Control-Allow-Origin": "*",
-          //      "Access-Control-Allow-Headers": "*"
-          //  },
-          body: { ok: 1, user: user },
-        });
-      } else {
-        return JSON.stringify({
-          statusCode: 400,
-          //  Uncomment below to enable CORS requests
-          //  headers: {
-          //      "Access-Control-Allow-Origin": "*",
-          //      "Access-Control-Allow-Headers": "*"
-          //  },
-          body: { ok: 0, error: "User not found." },
-        });
-      }
+      return JSON.stringify({
+        statusCode: 200,
+        //  Uncomment below to enable CORS requests
+        //  headers: {
+        //      "Access-Control-Allow-Origin": "*",
+        //      "Access-Control-Allow-Headers": "*"
+        //  },
+        body: { ok: 1, users: users },
+      });
     } else {
       return JSON.stringify({
-        statusCode: 500,
+        statusCode: 400,
         //  Uncomment below to enable CORS requests
         //  headers: {
         //      "Access-Control-Allow-Origin": "*",
