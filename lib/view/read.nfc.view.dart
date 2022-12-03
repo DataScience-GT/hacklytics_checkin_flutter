@@ -60,7 +60,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
     }
     return Scaffold(
         appBar: AppBar(
-          title: const Text('NFC'),
+          title: const Text('Read Nfc'),
         ),
         body: _isReading
             ? Center(child: ScanDialog(onRead: (nfc) {
@@ -88,10 +88,10 @@ class _ReadNfcViewState extends State<ReadNfcView> {
 
   getUser(Function(dynamic data, dynamic error) callback) async {
     // hacklytics record is of the form hacklytics://<id>
-    var user_uuid = _hacklyticsRecord.text.split("/")[2];
+    var userUuid = _hacklyticsRecord.text.split("/")[2];
     var request = GraphQLRequest(document: '''
           query getUser {
-            getUserById(user_uuid:"$user_uuid")
+            getUserById(user_uuid:"$userUuid")
           }
           ''');
     var operation = Amplify.API.query(request: request);
