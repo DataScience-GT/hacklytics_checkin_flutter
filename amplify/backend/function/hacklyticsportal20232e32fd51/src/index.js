@@ -31,29 +31,53 @@ exports.handler = async (event) => {
             })
         });
         var users = x.Users;
-        var user = null;
         if (users.length > 0) {
-            user = users.find(x => x.Username == event.arguments.user_uuid);
+            var user = users.find(x => x.Username == event.arguments.user_uuid);
+            if (user) {
+                return JSON.stringify({
+                    statusCode: 200,
+                //  Uncomment below to enable CORS requests
+                //  headers: {
+                //      "Access-Control-Allow-Origin": "*",
+                //      "Access-Control-Allow-Headers": "*"
+                //  }, 
+                    body: { ok: 1, user: user},
+                });
+            } else {
+                return JSON.stringify({
+                    statusCode: 400,
+                //  Uncomment below to enable CORS requests
+                //  headers: {
+                //      "Access-Control-Allow-Origin": "*",
+                //      "Access-Control-Allow-Headers": "*"
+                //  }, 
+                    body: { ok: 0, error: "User not found."},
+                });
+            }
+        } else {
+            return JSON.stringify({
+                statusCode: 500,
+            //  Uncomment below to enable CORS requests
+            //  headers: {
+            //      "Access-Control-Allow-Origin": "*",
+            //      "Access-Control-Allow-Headers": "*"
+            //  }, 
+                body: { ok: 0, error: "No users found in user pool."},
+            });
         }
-        return {
-            statusCode: 200,
-        //  Uncomment below to enable CORS requests
-        //  headers: {
-        //      "Access-Control-Allow-Origin": "*",
-        //      "Access-Control-Allow-Headers": "*"
-        //  }, 
-            body: { ok: 1, user: user},
-        };
+        
     } catch (err) {
-        return {
-            statusCode: 500,
-        //  Uncomment below to enable CORS requests
-        //  headers: {
-        //      "Access-Control-Allow-Origin": "*",
-        //      "Access-Control-Allow-Headers": "*"
-        //  }, 
-            body: {ok: 0, error: err.message},
-        };
+        return JSON.stringify(
+            {
+                statusCode: 500,
+            //  Uncomment below to enable CORS requests
+            //  headers: {
+            //      "Access-Control-Allow-Origin": "*",
+            //      "Access-Control-Allow-Headers": "*"
+            //  }, 
+                body: {ok: 0, error: err.message},
+            }
+        );
     }
 
 
