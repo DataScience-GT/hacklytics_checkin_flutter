@@ -42,7 +42,7 @@ class WriteNfc {
 
       try {
         await ndef.write(message);
-        success = 'Success to "Ndef Write"';
+        success = 'Successfully wrote to tag';
         NfcManager.instance.stopSession();
       } catch (e) {
         error = e.toString();
