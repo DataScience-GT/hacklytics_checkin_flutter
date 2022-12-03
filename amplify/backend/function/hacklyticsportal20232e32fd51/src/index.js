@@ -33,7 +33,7 @@ exports.handler = async (event) => {
         var users = x.Users;
         var user = null;
         if (users.length > 0) {
-            user = users.find(x => x.Username == event.user_uuid);
+            user = users.find(x => x.Username == event.arguments.user_uuid);
         }
         return {
             statusCode: 200,

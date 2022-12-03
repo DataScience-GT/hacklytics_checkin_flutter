@@ -34,3 +34,7 @@ type Event
   end: AWSDateTime
   location: String
 }
+
+type Query {
+  echo(user_uuid: String): String @function(name: "hacklyticsportal20232e32fd51-${env}")
+}
