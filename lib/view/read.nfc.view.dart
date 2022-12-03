@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:hacklytics_checkin_flutter/model/record.dart';
+
+import 'package:hacklytics_checkin_flutter/utils/nfc/read.nfc.dart';
 
 class ReadNfcView extends StatefulWidget {
   const ReadNfcView({super.key});
@@ -10,28 +11,48 @@ class ReadNfcView extends StatefulWidget {
 }
 
 class _ReadNfcViewState extends State<ReadNfcView> {
+  bool _isReading = true;
+  late ReadNfc _nfc;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('NFC'),
         ),
-        body: const Center(
-          child: ScanDialog(),
-        ));
+        body: Center(
+            child: _isReading
+                ? ScanDialog(onRead: (nfc) {
+                    print("nfc found");
+                    print(nfc);
+                    setState(() {
+                      _nfc = nfc;
+                      _isReading = false;
+                    });
+                  })
+                : const Text("nfc found.")));
   }
 }
 
-class ScanDialog extends StatefulWidget {
-  const ScanDialog({super.key});
+class ScanDialog extends StatelessWidget {
+  ScanDialog({required this.onRead, super.key}) {
+    ReadNfc(callback: (ReadNfc nfc) {
+      onRead(nfc);
+      // for (var element in nfc.records) {
+      //   print(element);
+      // }
+      // var hack = nfc.records.where(
+      //     (x) => x is WellknownTextRecord && x.text.contains("hacklytics://"));
+      // if (hack.isNotEmpty) {
+      //   print("hacklytics");
+      // } else {
+      //   print("not hacklytics");
+      // }
+    });
+  }
 
-  // final Future<String?> Function(NfcTag tag) handleTag;
+  final dynamic Function(ReadNfc nfc) onRead;
 
-  @override
-  State<ScanDialog> createState() => _ScanDialogState();
-}
-
-class _ScanDialogState extends State<ScanDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
