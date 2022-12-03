@@ -4,6 +4,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import "package:flutter/material.dart";
 import 'package:hacklytics_checkin_flutter/model/record.dart';
+import 'package:hacklytics_checkin_flutter/model/user.dart';
 
 import 'package:hacklytics_checkin_flutter/utils/nfc/read.nfc.dart';
 
@@ -23,7 +24,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
   bool _loadingUser = false;
   late String _error = "";
 
-  late String _user = "";
+  late dynamic _user;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
             });
           } else {
             // we have a user!
-            _user = data.toString();
+            _user = data;
           }
           setState(() {
             _loadingUser = false;
@@ -82,7 +83,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
                                   child: Text(_error)),
                             ))
                           ])
-                        : Center(child: Text(_user))))));
+                        : (_user is User ? _user.widget() : Text(_user))))));
   }
 
   getUser(Function(dynamic data, dynamic error) callback) async {
@@ -149,7 +150,8 @@ class response_getUser {
     var body = getUserById['body'];
     if (statusCode == 200) {
       // success
-      var user = body["user"];
+      var userStr = body["user"];
+      User user = User(userStr);
       // user = {"ok":1}
       // print(user);
       this.user = user;
