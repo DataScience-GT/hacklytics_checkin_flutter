@@ -96,7 +96,7 @@ class _UserListViewState extends State<UserListView> {
                                     _filteredUsers[index].attributes["name"]),
                                 subtitle: Text(
                                     _filteredUsers[index].attributes["email"]),
-                                trailing: const Icon(Icons.arrow_right),
+                                trailing: const Icon(Icons.save_as),
                                 onTap: () => {
                                       Navigator.push(
                                           context,
