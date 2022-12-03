@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import "package:flutter/material.dart";
@@ -32,8 +34,8 @@ class _ReadNfcViewState extends State<ReadNfcView> {
         _isHacklytics = true;
         _hacklyticsRecord = match[0] as WellknownTextRecord;
         _loadingUser = true;
-        // load the user from amplify
-        
+        // load the user from amplify through graphql query getUserById
+        getUser((data) {});
       } else {
         _isHacklytics = false;
       }
@@ -56,6 +58,26 @@ class _ReadNfcViewState extends State<ReadNfcView> {
                 : (_loadingUser
                     ? const Center(child: CircularProgressIndicator())
                     : Text('record: ${_hacklyticsRecord.text}'))));
+  }
+
+  Future getUser(Function(dynamic) callback) async {
+    // hacklytics record is of the form hacklytics://<id>
+    var user_uuid = _hacklyticsRecord.text.split("/")[2];
+    var request = GraphQLRequest(document: '''
+          query getUser {
+            getUserById(user_uuid:"$user_uuid")
+          }
+          ''');
+    var operation = Amplify.API.query(request: request);
+    var response = await operation.response;
+    var data = response.data;
+    // var getUserById = data['getUserById'];
+    var user = response_getUser(data);
+    if (user.error.isNotEmpty) {
+      print('error: ${user.error}');
+    } else {
+      print('user: ${user.user}');
+    }
   }
 }
 
@@ -90,5 +112,29 @@ class ScanDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class response_getUser {
+  late dynamic user;
+  late String error = "";
+  response_getUser(String data) {
+    print(data);
+    var json = jsonDecode(data);
+    // json = {getUserById: {"statusCode":200,"body":{"ok":1}}}
+    var getUserById = jsonDecode(json['getUserById']);
+    // getUserById = {"statusCode":200,"body":{"ok":1}}
+    var statusCode = getUserById['statusCode'];
+    var body = getUserById['body'];
+    if (statusCode == 200) {
+      // success
+      var user = body["user"];
+      // user = {"ok":1}
+      print(user);
+      this.user = user;
+    } else {
+      // error
+      error = body["error"].toString();
+    }
   }
 }
