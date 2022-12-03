@@ -95,3 +95,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 /lib/.old
+/lib/.examples
