@@ -43,7 +43,7 @@ class WriteNfc {
 
       try {
         await ndef.write(message);
-        success = 'Successfully wrote to tag';
+        success = 'Tag is now bound to ${user.attributes["name"]}';
         NfcManager.instance.stopSession();
       } catch (e) {
         error = e.toString();
