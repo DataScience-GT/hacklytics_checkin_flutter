@@ -2,6 +2,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_api/amplify_api.dart';
 // import 'package:hacklytics_checkin_flutter/screens/nfc.page.dart';
 
 // amplify config file
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _configureAmplify() async {
     try {
-      await Amplify.addPlugin(AmplifyAuthCognito());
+      await Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAPI()]);
       await Amplify.configure(amplifyconfig);
     } on Exception catch (e) {
       print('Could not configure Amplify: $e');
