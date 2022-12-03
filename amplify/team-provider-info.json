@@ -20,6 +20,12 @@
       },
       "api": {
         "hacklyticsportal2023": {}
+      },
+      "function": {
+        "hacklyticsportal20232e32fd51": {
+          "deploymentBucketName": "amplify-amplify0f0acd1e2a0b4-staging-14346-deployment",
+          "s3Key": "amplify-builds/hacklyticsportal20232e32fd51-63766e656454354b4679-build.zip"
+        }
       }
     }
   }

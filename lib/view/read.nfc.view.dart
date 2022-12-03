@@ -33,6 +33,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
         _hacklyticsRecord = match[0] as WellknownTextRecord;
         _loadingUser = true;
         // load the user from amplify
+        
       } else {
         _isHacklytics = false;
       }
