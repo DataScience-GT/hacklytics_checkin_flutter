@@ -13,7 +13,11 @@ class ReadNfc {
 
   /// the nfc tag read
   late NfcTag _tag;
+
+  /// whether the tag is ndef
   late bool isNdef;
+
+  /// the nfc tag's records
   List<Record> records = [];
 
   /// initializes the NFC manager and starts listening for NFC tags.
