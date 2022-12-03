@@ -49,6 +49,7 @@ class _UserListViewState extends State<UserListView> {
                   return ListTile(
                       title: Text(_users[index].attributes["name"]),
                       subtitle: Text(_users[index].attributes["email"]),
+                      trailing: const Icon(Icons.arrow_right),
                       onTap: () => {
                             Navigator.push(
                                 context,
