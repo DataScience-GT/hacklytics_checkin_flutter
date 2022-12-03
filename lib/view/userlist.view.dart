@@ -17,6 +17,7 @@ class UserListView extends StatefulWidget {
 class _UserListViewState extends State<UserListView> {
   bool _loading = true;
   late List<dynamic> _users;
+  late List<dynamic> _filteredUsers;
   late String _error = "";
 
   @override
@@ -31,6 +32,7 @@ class _UserListViewState extends State<UserListView> {
         } else {
           setState(() {
             _users = data;
+            _filteredUsers = data;
             _loading = false;
           });
         }
@@ -41,24 +43,72 @@ class _UserListViewState extends State<UserListView> {
         appBar: AppBar(
           title: const Text("Users"),
         ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: _users.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                      title: Text(_users[index].attributes["name"]),
-                      subtitle: Text(_users[index].attributes["email"]),
-                      trailing: const Icon(Icons.arrow_right),
-                      onTap: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        WriteNfcView(user: _users[index])))
-                          });
-                },
-              ));
+        body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: _loading
+                ? const Center(child: CircularProgressIndicator())
+                : (_error.isNotEmpty
+                    ? Row(children: [
+                        Expanded(
+                            child: Card(
+                          color: Colors.red.shade400,
+                          child: Padding(
+                              padding: const EdgeInsets.all(24),
+                              child: Text(_error)),
+                        ))
+                      ])
+                    : Column(children: [
+                        Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                  labelText: "Search",
+                                  suffixIcon: Icon(Icons.search)),
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value.isEmpty) {
+                                    _filteredUsers = _users;
+                                  } else {
+                                    _filteredUsers = _users
+                                        .where((user) =>
+                                            user.attributes["name"]
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains(
+                                                    value.toLowerCase()) ||
+                                            user.attributes["email"]
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains(value.toLowerCase()))
+                                        .toList();
+                                  }
+                                });
+                              },
+                            )),
+                        Expanded(
+                            child: ListView.builder(
+                          itemCount: _filteredUsers.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                                title: Text(
+                                    _filteredUsers[index].attributes["name"]),
+                                subtitle: Text(
+                                    _filteredUsers[index].attributes["email"]),
+                                trailing: const Icon(Icons.arrow_right),
+                                onTap: () => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WriteNfcView(
+                                                      user: _filteredUsers[
+                                                          index])))
+                                    });
+                          },
+                        ))
+                      ]))));
   }
 
   getUsers(Function(dynamic data, dynamic error) callback) async {
