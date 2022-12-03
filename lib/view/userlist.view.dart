@@ -5,6 +5,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hacklytics_checkin_flutter/model/user.dart';
+import 'package:hacklytics_checkin_flutter/view/write.nfc.view.dart';
 
 class UserListView extends StatefulWidget {
   const UserListView({super.key});
@@ -46,9 +47,15 @@ class _UserListViewState extends State<UserListView> {
                 itemCount: _users.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(_users[index].attributes["name"]),
-                    subtitle: Text(_users[index].attributes["email"]),
-                  );
+                      title: Text(_users[index].attributes["name"]),
+                      subtitle: Text(_users[index].attributes["email"]),
+                      onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        WriteNfcView(user: _users[index])))
+                          });
                 },
               ));
   }
