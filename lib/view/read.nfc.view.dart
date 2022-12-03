@@ -23,6 +23,8 @@ class _ReadNfcViewState extends State<ReadNfcView> {
   bool _loadingUser = false;
   late String _error = "";
 
+  late String _user = "";
+
   @override
   Widget build(BuildContext context) {
     if (!_isReading && !_checkedRecords) {
@@ -37,12 +39,13 @@ class _ReadNfcViewState extends State<ReadNfcView> {
         _loadingUser = true;
         // load the user from amplify through graphql query getUserById
         getUser((data, error) {
-          if (error != null) {
+          if (error != null && error.isNotEmpty) {
             setState(() {
               _error = error;
             });
           } else {
             // we have a user!
+            _user = data.toString();
           }
           setState(() {
             _loadingUser = false;
@@ -79,7 +82,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
                                   child: Text(_error)),
                             ))
                           ])
-                        : Text("User")))));
+                        : Center(child: Text(_user))))));
   }
 
   getUser(Function(dynamic data, dynamic error) callback) async {
