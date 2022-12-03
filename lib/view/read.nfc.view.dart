@@ -21,6 +21,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
   bool _isHacklytics = false;
   late WellknownTextRecord _hacklyticsRecord;
   bool _loadingUser = false;
+  late String _error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,18 @@ class _ReadNfcViewState extends State<ReadNfcView> {
         _hacklyticsRecord = match[0] as WellknownTextRecord;
         _loadingUser = true;
         // load the user from amplify through graphql query getUserById
-        getUser((data) {});
+        getUser((data, error) {
+          if (error != null) {
+            setState(() {
+              _error = error;
+            });
+          } else {
+            // we have a user!
+          }
+          setState(() {
+            _loadingUser = false;
+          });
+        });
       } else {
         _isHacklytics = false;
       }
@@ -57,10 +69,20 @@ class _ReadNfcViewState extends State<ReadNfcView> {
                 ? const Center(child: Text("No Hacklytics Record."))
                 : (_loadingUser
                     ? const Center(child: CircularProgressIndicator())
-                    : Text('record: ${_hacklyticsRecord.text}'))));
+                    : (_error.isNotEmpty
+                        ? Row(children: [
+                            Expanded(
+                                child: Card(
+                              color: Colors.red.shade400,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(24),
+                                  child: Text(_error)),
+                            ))
+                          ])
+                        : Text("User")))));
   }
 
-  Future getUser(Function(dynamic) callback) async {
+  getUser(Function(dynamic data, dynamic error) callback) async {
     // hacklytics record is of the form hacklytics://<id>
     var user_uuid = _hacklyticsRecord.text.split("/")[2];
     var request = GraphQLRequest(document: '''
@@ -72,12 +94,8 @@ class _ReadNfcViewState extends State<ReadNfcView> {
     var response = await operation.response;
     var data = response.data;
     // var getUserById = data['getUserById'];
-    var user = response_getUser(data);
-    if (user.error.isNotEmpty) {
-      print('error: ${user.error}');
-    } else {
-      print('user: ${user.user}');
-    }
+    var res = response_getUser(data);
+    callback(res.user, res.error);
   }
 }
 
@@ -116,10 +134,10 @@ class ScanDialog extends StatelessWidget {
 }
 
 class response_getUser {
-  late dynamic user;
+  late dynamic user = "";
   late String error = "";
   response_getUser(String data) {
-    print(data);
+    // print(data);
     var json = jsonDecode(data);
     // json = {getUserById: {"statusCode":200,"body":{"ok":1}}}
     var getUserById = jsonDecode(json['getUserById']);
@@ -130,7 +148,7 @@ class response_getUser {
       // success
       var user = body["user"];
       // user = {"ok":1}
-      print(user);
+      // print(user);
       this.user = user;
     } else {
       // error
