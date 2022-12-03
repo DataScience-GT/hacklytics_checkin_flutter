@@ -20,12 +20,14 @@ class NfcView extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const ReadNfcView())),
             trailing: const Icon(Icons.arrow_right),
           ),
+          const Divider(),
           ListTile(
             title: const Text("Write"),
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const UserListView())),
             trailing: const Icon(Icons.arrow_right),
-          )
+          ),
+          const Divider()
         ]));
   }
 }
