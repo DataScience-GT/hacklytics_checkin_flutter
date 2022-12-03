@@ -46,6 +46,7 @@ class WriteNfc {
         success = 'Tag is now bound to ${user.attributes["name"]}';
         NfcManager.instance.stopSession();
       } catch (e) {
+        print(e);
         error = e.toString();
         NfcManager.instance.stopSession(errorMessage: error);
       } finally {
