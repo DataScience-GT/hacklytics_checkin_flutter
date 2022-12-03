@@ -60,7 +60,7 @@ class _ReadNfcViewState extends State<ReadNfcView> {
     }
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Read Nfc'),
+          title: const Text('Read NFC'),
         ),
         body: _isReading
             ? Center(child: ScanDialog(onRead: (nfc) {
@@ -107,16 +107,6 @@ class ScanDialog extends StatelessWidget {
   ScanDialog({required this.onRead, super.key}) {
     ReadNfc(callback: (ReadNfc nfc) {
       onRead(nfc);
-      // for (var element in nfc.records) {
-      //   print(element);
-      // }
-      // var hack = nfc.records.where(
-      //     (x) => x is WellknownTextRecord && x.text.contains("hacklytics://"));
-      // if (hack.isNotEmpty) {
-      //   print("hacklytics");
-      // } else {
-      //   print("not hacklytics");
-      // }
     });
   }
 
@@ -125,8 +115,8 @@ class ScanDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Scan NFC Tag'),
-      content: const Text('Please scan a NFC tag'),
+      title: const Text('Scan NFC Card'),
+      content: const Text('Please scan a Hacklytics NFC card.'),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
