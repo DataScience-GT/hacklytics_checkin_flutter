@@ -1,16 +1,12 @@
 name: "tagged-release"
 
 on:
-  workflow_run:
-    workflows: ["tag"]
-    types:
-      - completed
   push:
-    tags:
-      - "v*"
+    branches:
+      - "main"
   pull_request:
-    tags:
-      - "v*"
+    branches:
+      - "main"
 
 jobs:
   tagged-release:
@@ -23,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -59,11 +55,17 @@ jobs:
       - run: flutter build apk
       - run: flutter build appbundle
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: ${{ steps.tag_version.outputs.new_tag }}
           prerelease: false
           files: |
             LICENSE.txt
