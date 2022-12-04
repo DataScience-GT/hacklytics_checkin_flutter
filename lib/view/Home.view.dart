@@ -1,17 +1,15 @@
-import 'dart:convert';
-
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
-import 'package:hacklytics_checkin_flutter/components/test.nfc.dart';
-import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
+import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
 
 import '../config.dart';
 import '../model/AmplifyUser.dart';
 import '../model/status.dart';
+import '../models/Event.dart';
 
 /// The home page
 class HomeView extends StatefulWidget {
@@ -21,18 +19,17 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-// TODO - use FutureBuilder to show loading indicator while getting the user's groups
 class _HomeViewState extends State<HomeView> {
   late AmplifyUser _user;
   bool _loadingUser = true;
   late String _error = "";
+  bool _loadingEvents = true;
 
   @override
   Widget build(BuildContext context) {
     if (_loadingUser) {
       getUserInfo((status) {
         if (status.success) {
-          print('message: ${status.message}');
           setState(() {
             _loadingUser = false;
           });
@@ -58,10 +55,37 @@ class _HomeViewState extends State<HomeView> {
   _buildBody() {
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
-        : StatusCard(message: _user.toString(), success: true);
+        : _buildBodyLoadEvents();
   }
 
-  getUserInfo(Function(Status status) callback) async {
+  _buildBodyLoadEvents() {
+    if (_loadingEvents) {
+      getEvents((status) {
+        if (status.success) {
+          setState(() {
+            _loadingEvents = false;
+          });
+        } else {
+          setState(() {
+            _error = status.error.toString();
+            _loadingEvents = false;
+          });
+        }
+      });
+    }
+
+    return _loadingEvents
+        ? const Center(child: CircularProgressIndicator())
+        : _buildBodyWithEvents();
+  }
+
+  _buildBodyWithEvents() {
+    return _error.isNotEmpty
+        ? StatusCard(message: _error, success: false)
+        : const StatusCard(message: "Events have been loaded", success: true);
+  }
+
+  getUserInfo(Function(Status) callback) async {
     try {
       AuthSession authSessions = await Amplify.Auth.fetchAuthSession(
           options: CognitoSessionOptions(getAWSCredentials: true));
@@ -86,5 +110,23 @@ class _HomeViewState extends State<HomeView> {
       return callback(Status.withError(error: err));
     }
     // return callback(Status.withSuccess(message: "Success!"));
+  }
+
+  getEvents(Function(Status) callback) async {
+    try {
+      final request = ModelQueries.list(Event.classType);
+      // final request = GraphQLRequest(
+      //     document: req.document, apiName: "AMAZON_COGNITO_USER_POOLS", variables: );
+      // request.apiName = "hacklyticsportal2023_AMAZON_COGNITO_USER_POOLS";
+      final response = await Amplify.API.query(request: request).response;
+      if (response.errors.isNotEmpty) {
+        return callback(Status.withError(error: response.errors));
+      }
+      final events = response.data;
+      print('Events: $events');
+      return callback(Status.withSuccess(message: "Got events."));
+    } on ApiException catch (e) {
+      callback(Status.withError(error: e));
+    }
   }
 }
