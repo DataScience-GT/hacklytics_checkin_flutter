@@ -32,6 +32,7 @@ class EventCard extends StatelessWidget {
     //   )
     // ]);
     return ListViewCard(children: [
+      _buildListTile("ID", event.id),
       _buildListTile("Name", event.name),
       // const Divider(),
       _buildListTile("Description", event.description),
