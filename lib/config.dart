@@ -1,6 +1,9 @@
 class Config {
   /// The name of the app (appears at the top of Home page)
   static const String appName = "Hacklytics 2023";
+
+  /// Whether to show the debug logs
+  static const bool isDebug = true;
 }
 
 
