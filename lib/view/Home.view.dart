@@ -24,6 +24,7 @@ class _HomeViewState extends State<HomeView> {
   bool _loadingUser = true;
   late String _error = "";
   bool _loadingEvents = true;
+  List<Event> _events = [];
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,21 @@ class _HomeViewState extends State<HomeView> {
   _buildBodyWithEvents() {
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
-        : const StatusCard(message: "Events have been loaded", success: true);
+        : Column(children: [
+            ListTile(title: Text("Events:")),
+            Expanded(
+                child: ListView.separated(
+                    itemCount: _events.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(_events[index].name),
+                        subtitle: Text(_events[index].description ?? ""),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    }))
+          ]);
   }
 
   getUserInfo(Function(Status) callback) async {
@@ -122,8 +137,15 @@ class _HomeViewState extends State<HomeView> {
       if (response.errors.isNotEmpty) {
         return callback(Status.withError(error: response.errors));
       }
-      final events = response.data;
-      print('Events: $events');
+      final events = response.data?.items;
+
+      if (events != null && events.isNotEmpty) {
+        setState(() {
+          _events = events.map((x) => x as Event).toList();
+        });
+      }
+
+      // print('Events: $events');
       return callback(Status.withSuccess(message: "Got events."));
     } on ApiException catch (e) {
       callback(Status.withError(error: e));
