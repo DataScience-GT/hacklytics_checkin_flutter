@@ -43,13 +43,14 @@ jobs:
           distribution: "zulu"
           java-version: "11"
 
-      - name: setup flutter
+      - name: do flutter stuff
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.9"
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
+      - run: flutter build appbundle
 
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -58,4 +59,5 @@ jobs:
           prerelease: false
           files: |
             LICENSE.txt
-            *.apk
+            build/app/outputs/bundle/release/app-release.aab
+            build/app/outputs/flutter-apk/app-release.apk
