@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hacklytics_checkin_flutter/components/toast.component.dart';
+import 'package:hacklytics_checkin_flutter/main.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,8 @@ class _SettingsViewState extends State<SettingsView> {
   bool _loadingVersion = true;
   late PackageInfo _packageInfo;
 
+  late FToast ftoast;
+
   @override
   Widget build(BuildContext context) {
     if (_loadingVersion) {
@@ -29,6 +33,7 @@ class _SettingsViewState extends State<SettingsView> {
     }
 
     return Scaffold(
+        key: globalKey,
         appBar: AppBar(
           title: const Text("Settings"),
         ),
@@ -42,34 +47,56 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   _buildBody(BuildContext context) {
+    ftoast = FToast();
+    ftoast.init(globalKey.currentState!.context);
     return Column(
       children: [
         ListTile(
           title: const Text("App Name"),
           subtitle: Text(_packageInfo.appName),
           onLongPress: () {
-            Clipboard.setData(ClipboardData(text: _packageInfo.appName));
-            // show toast
-
+            _copyToClipboard(_packageInfo.appName);
           },
         ),
         ListTile(
           title: const Text("Package Name"),
           subtitle: Text(_packageInfo.packageName),
+          onLongPress: () {
+            _copyToClipboard(_packageInfo.packageName);
+          },
         ),
         ListTile(
           title: const Text("Version"),
           subtitle: Text(_packageInfo.version),
+          onLongPress: () {
+            _copyToClipboard(_packageInfo.version);
+          },
         ),
         ListTile(
           title: const Text("Build Number"),
           subtitle: Text(_packageInfo.buildNumber),
+          onLongPress: () {
+            _copyToClipboard(_packageInfo.buildNumber);
+          },
         ),
         ListTile(
           title: const Text("Build Signature"),
           subtitle: Text(_packageInfo.buildSignature),
+          onLongPress: () {
+            _copyToClipboard(_packageInfo.buildSignature);
+          },
         ),
       ],
+    );
+  }
+
+  _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    // show toast
+    ftoast.showToast(
+      child: const ConfirmToast(labelText: "Copied to clipboard"),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
     );
   }
 }
