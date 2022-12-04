@@ -1,9 +1,6 @@
 name: "tagged-release"
 
 on:
-  workflow_run:
-    tags:
-      - v*
   push:
     tags:
       - "v*"
