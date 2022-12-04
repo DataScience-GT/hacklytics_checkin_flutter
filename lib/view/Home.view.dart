@@ -1,21 +1,18 @@
-import 'dart:ui';
-
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart';
 
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
 import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 import 'package:hacklytics_checkin_flutter/view/settings.view.dart';
 
-import '../config.dart';
-import '../model/AmplifyUser.dart';
-import '../model/status.dart';
-import '../models/Event.dart';
+import 'package:hacklytics_checkin_flutter/config.dart';
+import 'package:hacklytics_checkin_flutter/model/AmplifyUser.dart';
+import 'package:hacklytics_checkin_flutter/model/status.dart';
+import 'package:hacklytics_checkin_flutter/models/Event.dart';
 
 /// The home page
 class HomeView extends StatefulWidget {
