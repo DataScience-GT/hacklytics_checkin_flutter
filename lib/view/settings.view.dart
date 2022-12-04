@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hacklytics_checkin_flutter/components/HeadingListTile.component.dart';
 import 'package:hacklytics_checkin_flutter/components/toast.component.dart';
 import 'package:hacklytics_checkin_flutter/main.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
@@ -51,6 +52,7 @@ class _SettingsViewState extends State<SettingsView> {
     ftoast.init(globalKey.currentState!.context);
     return Column(
       children: [
+        const HeadingListTile(labelText: "App Info"),
         ListTile(
           title: const Text("App Name"),
           subtitle: Text(_packageInfo.appName),
@@ -86,6 +88,11 @@ class _SettingsViewState extends State<SettingsView> {
             _copyToClipboard(_packageInfo.buildSignature);
           },
         ),
+        const HeadingListTile(labelText: "User Info"),
+        ListTile(
+          title: const Text("uuid"),
+          subtitle: Text(widget.user.username),
+        )
       ],
     );
   }
