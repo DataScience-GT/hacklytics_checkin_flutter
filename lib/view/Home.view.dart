@@ -5,6 +5,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/components/test.nfc.dart';
 import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 
@@ -23,32 +24,41 @@ class HomeView extends StatefulWidget {
 // TODO - use FutureBuilder to show loading indicator while getting the user's groups
 class _HomeViewState extends State<HomeView> {
   late AmplifyUser _user;
+  bool _loadingUser = true;
+  late String _error = "";
 
   @override
   Widget build(BuildContext context) {
-    getUserInfo((status) {
-      if (status.success) {
-        print('message: ${status.message}');
-      }
-    });
+    if (_loadingUser) {
+      getUserInfo((status) {
+        if (status.success) {
+          print('message: ${status.message}');
+          setState(() {
+            _loadingUser = false;
+          });
+        } else {
+          setState(() {
+            _error = status.error.toString();
+            _loadingUser = false;
+          });
+        }
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(Config.appName),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Text('Logged In'),
-            // SignOutButton(),
-            ElevatedButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NfcView())),
-                child: const Text("Nfc"))
-          ],
-        ),
-      ),
+      body: _loadingUser
+          ? const Center(child: CircularProgressIndicator())
+          : _buildBody(),
     );
+  }
+
+  _buildBody() {
+    return _error.isNotEmpty
+        ? StatusCard(message: _error, success: false)
+        : StatusCard(message: _user.toString(), success: true);
   }
 
   getUserInfo(Function(Status status) callback) async {
@@ -66,7 +76,9 @@ class _HomeViewState extends State<HomeView> {
 
         var attributes = await Amplify.Auth.fetchUserAttributes();
 
-        _user = AmplifyUser(accessToken: accessToken, attributes: attributes);
+        setState(() {
+          _user = AmplifyUser(accessToken: accessToken, attributes: attributes);
+        });
 
         callback(Status.withSuccess(message: "Got user info."));
       }
