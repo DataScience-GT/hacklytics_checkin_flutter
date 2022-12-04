@@ -64,8 +64,8 @@ class _UserListViewState extends State<UserListView> {
                             padding: const EdgeInsets.all(16),
                             child: TextField(
                               decoration: const InputDecoration(
-                                  labelText: "Search",
-                                  suffixIcon: Icon(Icons.search)),
+                                  labelText: "Filter",
+                                  suffixIcon: Icon(Icons.filter_alt)),
                               onChanged: (value) {
                                 setState(() {
                                   if (value.isEmpty) {

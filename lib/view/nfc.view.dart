@@ -13,17 +13,17 @@ class NfcView extends StatelessWidget {
         ),
         body: Column(children: [
           ListTile(
-            title: const Text("Read"),
+            title: const Text("Read existing Hacklytics NFC"),
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ReadNfcView())),
-            trailing: const Icon(Icons.arrow_right),
+            trailing: const Icon(Icons.assignment_ind),
           ),
           const Divider(),
           ListTile(
-            title: const Text("Write"),
+            title: const Text("Write new Hacklytics NFC"),
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const UserListView())),
-            trailing: const Icon(Icons.arrow_right),
+            trailing: const Icon(Icons.create),
           ),
           const Divider()
         ]));
