@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: Klemensas/action-autotag@stable
+      - uses: jacopocarlini/action-autotag@2.0.6
         id: tag_version
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
