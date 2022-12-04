@@ -9,6 +9,7 @@ import 'package:badges/badges.dart';
 
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
+import 'package:hacklytics_checkin_flutter/view/settings.view.dart';
 
 import '../config.dart';
 import '../model/AmplifyUser.dart';
@@ -62,7 +63,11 @@ class _HomeViewState extends State<HomeView> {
         ListTile(
           title: const Text("Settings"),
           leading: const Icon(Icons.settings),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const SettingsView();
+            }));
+          },
         ),
         const Divider(),
         ListTile(
