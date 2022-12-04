@@ -55,12 +55,22 @@ class _HomeViewState extends State<HomeView> {
           ? const Center(child: CircularProgressIndicator())
           : _buildBody(),
       endDrawer: Drawer(
-          child: ListView(children: const [
-        DrawerHeader(
+          child: ListView(children: [
+        const DrawerHeader(
           child: Text("Hacklytics"),
         ),
         ListTile(
-          title: Text("asda"),
+          title: const Text("Settings"),
+          leading: const Icon(Icons.settings),
+          onTap: () {},
+        ),
+        const Divider(),
+        ListTile(
+          title: const Text("Logout"),
+          leading: const Icon(Icons.logout),
+          onTap: () {
+            Amplify.Auth.signOut();
+          },
         )
       ])),
     );
