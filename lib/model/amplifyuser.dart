@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
+import '../config.dart';
+
 class AmplifyUser {
   final String accessToken;
   final List<AuthUserAttribute> attributes;
@@ -9,6 +11,7 @@ class AmplifyUser {
   late String username;
   late String deviceKey;
   late String clientId;
+  bool hasAccess = false;
 
   AmplifyUser({required this.accessToken, required this.attributes}) {
     // decode the access token
@@ -22,6 +25,14 @@ class AmplifyUser {
     username = json['username'];
     deviceKey = json['device_key'];
     clientId = json['client_id'];
+
+    // check if the user is in the allowed groups
+    for (var group in groups) {
+      if (Config.allowedGroups.contains(group)) {
+        hasAccess = true;
+        break;
+      }
+    }
   }
 }
 
