@@ -10,7 +10,7 @@ import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 import 'package:hacklytics_checkin_flutter/view/settings.view.dart';
 
 import 'package:hacklytics_checkin_flutter/config.dart';
-import 'package:hacklytics_checkin_flutter/model/AmplifyUser.dart';
+import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
 import 'package:hacklytics_checkin_flutter/model/status.dart';
 import 'package:hacklytics_checkin_flutter/models/Event.dart';
 
