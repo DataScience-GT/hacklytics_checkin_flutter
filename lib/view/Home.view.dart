@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
+
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
 
@@ -81,17 +85,41 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _buildBodyWithEvents() {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
         : Column(children: [
-            ListTile(title: Text("Events:")),
+            ListTile(
+                title: Text(
+              "Events",
+              style: textTheme.headline5,
+            )),
             Expanded(
                 child: ListView.separated(
                     itemCount: _events.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(_events[index].name),
+                        title: Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Text(_events[index].name),
+                          ),
+                          Chip(
+                            label: _events[index].status == true
+                                ? const Text("open")
+                                : const Text("closed"),
+                            backgroundColor: _events[index].status == true
+                                ? Colors.green.shade800
+                                : Colors.red.shade800,
+                          )
+                        ]),
                         subtitle: Text(_events[index].description ?? ""),
+                        enabled: _events[index].status == true,
+                        onTap: () {
+                          // go to event page
+                          print("event pressed ${_events[index].name}");
+                        },
                       );
                     },
                     separatorBuilder: (context, index) {
