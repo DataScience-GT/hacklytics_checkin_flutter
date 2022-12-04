@@ -24,6 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: jacopocarlini/action-autotag@stable
+        id: tag_version
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          tag_prefix: "v"
+
       - name: use node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -55,17 +61,17 @@ jobs:
       - run: flutter build apk
       - run: flutter build appbundle
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Bump version and push tag
+      #   id: tag_version
+      #   uses: mathieudutour/github-tag-action@v6.1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ steps.tag_version.outputs.new_tag }}
+          automatic_release_tag: ${{ steps.tag_version.outputs.tagname }}
           prerelease: false
           files: |
             LICENSE.txt
