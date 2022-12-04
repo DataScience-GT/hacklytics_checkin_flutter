@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "auth": {
+      "hacklyticsportal2023": [
+        "create",
+        "read"
+      ]
+    },
+    "api": {
+      "hacklyticsportal2023": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
