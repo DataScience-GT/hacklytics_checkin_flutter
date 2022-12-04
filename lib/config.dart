@@ -4,6 +4,9 @@ class Config {
 
   /// Whether to show the debug logs
   static const bool isDebug = true;
+
+  /// The groups that are allowed to use the app
+  static const List<String> allowedGroups = ["Administrator", "Staff"];
 }
 
 
