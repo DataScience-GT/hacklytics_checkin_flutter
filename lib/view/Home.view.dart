@@ -7,6 +7,7 @@ import 'package:hacklytics_checkin_flutter/components/ListViewCard.component.dar
 
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
+import 'package:hacklytics_checkin_flutter/view/event.view.dart';
 import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 import 'package:hacklytics_checkin_flutter/view/settings.view.dart';
 
@@ -169,7 +170,11 @@ class _HomeViewState extends State<HomeView> {
                     onTap: () {
                       // go to event page
                       // TODO: implement
-                      print("event pressed ${_events[index].name}");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EventView(event: _events[index])));
                     },
                   );
                 },
