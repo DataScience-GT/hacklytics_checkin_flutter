@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter/services.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({required this.user, super.key});
@@ -30,33 +31,42 @@ class _SettingsViewState extends State<SettingsView> {
         appBar: AppBar(
           title: const Text("Settings"),
         ),
-        body: _buildWithVersionInfo());
+        body: _buildWithVersionInfo(context));
   }
 
-  _buildWithVersionInfo() {
+  _buildWithVersionInfo(BuildContext context) {
     return _loadingVersion
         ? const Center(child: CircularProgressIndicator())
-        : _buildBody();
+        : _buildBody(context);
   }
 
-  _buildBody() {
+  _buildBody(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          title: Text("AppName"),
+          title: const Text("App Name"),
           subtitle: Text(_packageInfo.appName),
+          onLongPress: () {
+            Clipboard.setData(ClipboardData(text: _packageInfo.appName));
+            // show toast
+
+          },
         ),
         ListTile(
-          title: Text("PackageName"),
+          title: const Text("Package Name"),
           subtitle: Text(_packageInfo.packageName),
         ),
         ListTile(
-          title: Text("Version"),
+          title: const Text("Version"),
           subtitle: Text(_packageInfo.version),
         ),
         ListTile(
-          title: Text("BuildNumber"),
+          title: const Text("Build Number"),
           subtitle: Text(_packageInfo.buildNumber),
+        ),
+        ListTile(
+          title: const Text("Build Signature"),
+          subtitle: Text(_packageInfo.buildSignature),
         ),
       ],
     );
