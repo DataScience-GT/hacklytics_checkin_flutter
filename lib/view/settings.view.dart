@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/HeadingListTile.component.dart';
 import 'package:hacklytics_checkin_flutter/components/toast.component.dart';
@@ -50,7 +51,8 @@ class _SettingsViewState extends State<SettingsView> {
   _buildBody(BuildContext context) {
     ftoast = FToast();
     ftoast.init(globalKey.currentState!.context);
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       children: [
         const HeadingListTile(labelText: "App Info"),
         ListTile(
@@ -90,11 +92,15 @@ class _SettingsViewState extends State<SettingsView> {
         ),
         const HeadingListTile(labelText: "User Info"),
         ListTile(
-          title: const Text("uuid"),
-          subtitle: Text(widget.user.username),
-        )
+          title: const Text("Group(s)"),
+          subtitle: Text(widget.user.groups.join(", ")),
+          onLongPress: () {
+            _copyToClipboard(widget.user.groups.join(", "));
+          },
+        ),
+        ..._userAttributesMap(),
       ],
-    );
+    ));
   }
 
   _copyToClipboard(String text) {
@@ -105,5 +111,21 @@ class _SettingsViewState extends State<SettingsView> {
       gravity: ToastGravity.BOTTOM,
       toastDuration: const Duration(seconds: 2),
     );
+  }
+
+  _userAttributesMap() {
+    return widget.user.attributes.map((e) => ListTile(
+          title: Text(e.userAttributeKey.key.capitalize()),
+          subtitle: Text(e.value),
+          onLongPress: () {
+            _copyToClipboard(e.value);
+          },
+        ));
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
   }
 }
