@@ -9,15 +9,20 @@ class ListViewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (labelText.isEmpty) {
-      return Card(
-        child: ListView(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          children: children,
-        ),
-      );
-    }
+    return labelText.isEmpty ? _buildNoLabel() : _buildWithLabel();
+  }
+
+  _buildNoLabel() {
+    return Card(
+      child: ListView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        children: children,
+      ),
+    );
+  }
+
+  _buildWithLabel() {
     return Badge(
         badgeContent: Text(labelText),
         shape: BadgeShape.square,
