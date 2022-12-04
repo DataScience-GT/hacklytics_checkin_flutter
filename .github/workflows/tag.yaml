@@ -1,0 +1,39 @@
+name: "tag"
+on: [push, pull_request]
+
+jobs:
+  tag:
+    name: "git tag"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Create a GitHub release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     tag: ${{ steps.tag_version.outputs.new_tag }}
+      #     name: Release ${{ steps.tag_version.outputs.new_tag }}
+      #     body: ${{ steps.tag_version.outputs.changelog }}
+
+      # - name: Git Version
+      #   uses: codacy/git-version@2.4.0
+      #   with:
+      #     # The name of the release branch
+      #     release-branch: main
+      #     # The name of the dev branch
+      #     dev-branch: development
+      #     # The prefix to use in the version
+      #     prefix: v
+      #     # The paths to be used to calculate changes (comma-separated)
+      #     log-paths: ./lib
+      # - name: Use the version
+      #   run: |
+      #     echo ${{ steps.version.outputs.version }}
+      # - name: Use the previous version
+      #   run: |
+      #     echo ${{ steps.version.outputs.previous-version }}
