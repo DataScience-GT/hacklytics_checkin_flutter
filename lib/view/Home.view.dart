@@ -81,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
           leading: const Icon(Icons.settings),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const SettingsView();
+              return SettingsView(user: _user);
             }));
           },
         ),
