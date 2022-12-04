@@ -163,10 +163,8 @@ class _HomeViewState extends State<HomeView> {
                       )
                     ]),
                     subtitle: Text(_events[index].description ?? ""),
-                    enabled: _events[index].status == true,
-                    trailing: _events[index].status == true
-                        ? const Icon(Icons.chevron_right)
-                        : null,
+                    // enabled: _events[index].status == true,
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       // go to event page
                       // TODO: implement
