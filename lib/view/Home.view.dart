@@ -168,6 +168,7 @@ class _HomeViewState extends State<HomeView> {
                         : null,
                     onTap: () {
                       // go to event page
+                      // TODO: implement
                       print("event pressed ${_events[index].name}");
                     },
                   );
