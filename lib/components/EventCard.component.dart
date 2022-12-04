@@ -65,7 +65,7 @@ class EventCard extends StatelessWidget {
   }
 
   _buildListTileDate(String title, TemporalDateTime? date) {
-    final DateFormat formatter = DateFormat('M/d/yyyy h:mm a');
+    final DateFormat formatter = DateFormat('MMM d, yyyy h:mm a');
     // format date
     // String formattedDate =
     //     date != null ? formatter.format(date as DateTime) : "";
