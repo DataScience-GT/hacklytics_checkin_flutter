@@ -54,6 +54,15 @@ class _HomeViewState extends State<HomeView> {
       body: _loadingUser
           ? const Center(child: CircularProgressIndicator())
           : _buildBody(),
+      endDrawer: Drawer(
+          child: ListView(children: const [
+        DrawerHeader(
+          child: Text("Hacklytics"),
+        ),
+        ListTile(
+          title: Text("asda"),
+        )
+      ])),
     );
   }
 
@@ -110,8 +119,8 @@ class _HomeViewState extends State<HomeView> {
                                 ? const Text("open")
                                 : const Text("closed"),
                             backgroundColor: _events[index].status == true
-                                ? Colors.green.shade800
-                                : Colors.red.shade800,
+                                ? Colors.green.shade500
+                                : Colors.red.shade500,
                           )
                         ]),
                         subtitle: Text(_events[index].description ?? ""),
