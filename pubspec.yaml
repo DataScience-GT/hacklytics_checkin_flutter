@@ -43,6 +43,7 @@ dependencies:
   permission_handler: ^10.2.0
   nfc_manager: ^3.2.0
   provider:
+  badges: ^2.0.3
 
 dev_dependencies:
   flutter_test:
