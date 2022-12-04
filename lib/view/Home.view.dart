@@ -61,16 +61,24 @@ class _HomeViewState extends State<HomeView> {
         const DrawerHeader(
           child: Text("Hacklytics"),
         ),
-        ListTile(
-          title: const Text("General NFC"),
-          leading: const Icon(Icons.sensors),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const NfcView();
-            }));
-          },
-        ),
-        const Divider(),
+        _loadingUser == false && _user.hasAccess
+            ? Column(children: [
+                ListTile(
+                  title: const Text("General NFC"),
+                  leading: const Icon(Icons.sensors),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const NfcView();
+                    }));
+                  },
+                ),
+                const Divider()
+              ])
+            : const SizedBox(
+                width: 0,
+                height: 0,
+              ),
         ListTile(
           title: const Text("Settings"),
           leading: const Icon(Icons.settings),
@@ -95,6 +103,15 @@ class _HomeViewState extends State<HomeView> {
   _buildBody() {
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
+        : _buildBodyCheckGroups();
+  }
+
+  _buildBodyCheckGroups() {
+    return !_user.hasAccess
+        ? StatusCard(
+            message:
+                "Invalid Access: Requires one of the following groups: ${Config.allowedGroups}",
+            success: false)
         : _buildBodyLoadEvents();
   }
 
