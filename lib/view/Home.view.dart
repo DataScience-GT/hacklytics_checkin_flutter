@@ -9,6 +9,7 @@ import 'package:badges/badges.dart';
 
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
+import 'package:hacklytics_checkin_flutter/view/nfc.view.dart';
 import 'package:hacklytics_checkin_flutter/view/settings.view.dart';
 
 import '../config.dart';
@@ -60,6 +61,16 @@ class _HomeViewState extends State<HomeView> {
         const DrawerHeader(
           child: Text("Hacklytics"),
         ),
+        ListTile(
+          title: const Text("General NFC"),
+          leading: const Icon(Icons.sensors),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const NfcView();
+            }));
+          },
+        ),
+        const Divider(),
         ListTile(
           title: const Text("Settings"),
           leading: const Icon(Icons.settings),
