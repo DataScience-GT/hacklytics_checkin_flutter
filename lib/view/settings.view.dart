@@ -1,6 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/HeadingListTile.component.dart';
+import 'package:hacklytics_checkin_flutter/components/ListViewCard.component.dart';
 import 'package:hacklytics_checkin_flutter/components/toast.component.dart';
 import 'package:hacklytics_checkin_flutter/main.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
@@ -54,51 +55,63 @@ class _SettingsViewState extends State<SettingsView> {
     return SingleChildScrollView(
         child: Column(
       children: [
-        const HeadingListTile(labelText: "App Info"),
-        ListTile(
-          title: const Text("App Name"),
-          subtitle: Text(_packageInfo.appName),
-          onLongPress: () {
-            _copyToClipboard(_packageInfo.appName);
-          },
-        ),
-        ListTile(
-          title: const Text("Package Name"),
-          subtitle: Text(_packageInfo.packageName),
-          onLongPress: () {
-            _copyToClipboard(_packageInfo.packageName);
-          },
-        ),
-        ListTile(
-          title: const Text("Version"),
-          subtitle: Text(_packageInfo.version),
-          onLongPress: () {
-            _copyToClipboard(_packageInfo.version);
-          },
-        ),
-        ListTile(
-          title: const Text("Build Number"),
-          subtitle: Text(_packageInfo.buildNumber),
-          onLongPress: () {
-            _copyToClipboard(_packageInfo.buildNumber);
-          },
-        ),
-        ListTile(
-          title: const Text("Build Signature"),
-          subtitle: Text(_packageInfo.buildSignature),
-          onLongPress: () {
-            _copyToClipboard(_packageInfo.buildSignature);
-          },
-        ),
-        const HeadingListTile(labelText: "User Info"),
-        ListTile(
-          title: const Text("Group(s)"),
-          subtitle: Text(widget.user.groups.join(", ")),
-          onLongPress: () {
-            _copyToClipboard(widget.user.groups.join(", "));
-          },
-        ),
-        ..._userAttributesMap(),
+        // const HeadingListTile(labelText: "App Info"),
+        // const Divider(),
+        ListViewCard(labelText: "App Info", children: [
+          ListTile(
+            title: const Text("App Name"),
+            subtitle: Text(_packageInfo.appName),
+            onLongPress: () {
+              _copyToClipboard(_packageInfo.appName);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Package Name"),
+            subtitle: Text(_packageInfo.packageName),
+            onLongPress: () {
+              _copyToClipboard(_packageInfo.packageName);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Version"),
+            subtitle: Text(_packageInfo.version),
+            onLongPress: () {
+              _copyToClipboard(_packageInfo.version);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Build Number"),
+            subtitle: Text(_packageInfo.buildNumber),
+            onLongPress: () {
+              _copyToClipboard(_packageInfo.buildNumber);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Build Signature"),
+            subtitle: Text(_packageInfo.buildSignature),
+            onLongPress: () {
+              _copyToClipboard(_packageInfo.buildSignature);
+            },
+          ),
+        ]),
+
+        // const HeadingListTile(labelText: "User Info"),
+        // // const Divider(),
+        ListViewCard(labelText: "User Info", children: [
+          ListTile(
+            title: const Text("Group(s)"),
+            subtitle: Text(widget.user.groups.join(", ")),
+            onLongPress: () {
+              _copyToClipboard(widget.user.groups.join(", "));
+            },
+          ),
+          const Divider(),
+          _userAttributesMap()
+        ])
       ],
     ));
   }
@@ -114,13 +127,30 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   _userAttributesMap() {
-    return widget.user.attributes.map((e) => ListTile(
-          title: Text(e.userAttributeKey.key.capitalize()),
-          subtitle: Text(e.value),
-          onLongPress: () {
-            _copyToClipboard(e.value);
-          },
-        ));
+    return ListView.separated(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemBuilder: (context, index) {
+          var a = widget.user.attributes[index];
+          return ListTile(
+            title: Text(a.userAttributeKey.key.capitalize()),
+            subtitle: Text(a.value),
+            onLongPress: () {
+              _copyToClipboard(a.value);
+            },
+          );
+        },
+        separatorBuilder: ((context, index) {
+          return const Divider();
+        }),
+        itemCount: widget.user.attributes.length);
+    // widget.user.attributes.map((e) => ListTile(
+    //       title: Text(e.userAttributeKey.key.capitalize()),
+    //       subtitle: Text(e.value),
+    //       onLongPress: () {
+    //         _copyToClipboard(e.value);
+    //       },
+    //     ));
   }
 }
 
