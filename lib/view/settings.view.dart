@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({required this.user, super.key});

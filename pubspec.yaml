@@ -45,6 +45,7 @@ dependencies:
   provider:
   badges: ^2.0.3
   package_info_plus: ^1.0.6
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:
