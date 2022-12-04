@@ -140,46 +140,66 @@ class _HomeViewState extends State<HomeView> {
 
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
-        : SingleChildScrollView(
-            child: ListViewCard(labelText: "Events", children: [
-            ListView.separated(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: _events.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Text(_events[index].name),
-                      ),
-                      Chip(
-                        label: _events[index].status == true
-                            ? const Text("open")
-                            : const Text("closed"),
-                        backgroundColor: _events[index].status == true
-                            ? Colors.green.shade500
-                            : Colors.red.shade500,
-                      )
-                    ]),
-                    subtitle: Text(_events[index].description ?? ""),
-                    // enabled: _events[index].status == true,
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // go to event page
-                      // TODO: implement
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  EventView(event: _events[index])));
+        : RefreshIndicator(
+            // child: ListView(children: [
+            //   ListView.builder(
+            //     shrinkWrap: true,
+            //     physics: const ClampingScrollPhysics(),
+            //     itemBuilder: (context, index) {
+            //       return const ListTile(title: Text("Test Tile"));
+            //     },
+            //     itemCount: 12,
+            //   ),
+            // ]),
+
+            child: ListView(children: [
+              ListViewCard(labelText: "Events", children: [
+                ListView.separated(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: _events.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Text(_events[index].name),
+                          ),
+                          Chip(
+                            label: _events[index].status == true
+                                ? const Text("open")
+                                : const Text("closed"),
+                            backgroundColor: _events[index].status == true
+                                ? Colors.green.shade500
+                                : Colors.red.shade500,
+                          )
+                        ]),
+                        subtitle: Text(_events[index].description ?? ""),
+                        // enabled: _events[index].status == true,
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          // go to event page
+                          // TODO: implement
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EventView(event: _events[index])));
+                        },
+                      );
                     },
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                })
-          ]));
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    })
+              ])
+            ]),
+            onRefresh: () async {
+              setState(() {
+                _loadingEvents = true;
+                _error = "";
+                _events = [];
+              });
+            });
   }
 
   getUserInfo(Function(Status) callback) async {
