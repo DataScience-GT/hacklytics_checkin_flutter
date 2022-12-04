@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:hacklytics_checkin_flutter/components/ListViewCard.component.dart';
 import 'package:hacklytics_checkin_flutter/view/userlist.view.dart';
 import './read.nfc.view.dart';
 
@@ -11,7 +12,7 @@ class NfcView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('NFC'),
         ),
-        body: Column(children: [
+        body: ListViewCard(children: [
           ListTile(
             title: const Text("Read existing Hacklytics NFC"),
             onTap: () => Navigator.push(context,
@@ -24,8 +25,7 @@ class NfcView extends StatelessWidget {
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const UserListView())),
             trailing: const Icon(Icons.create),
-          ),
-          const Divider()
+          )
         ]));
   }
 }
