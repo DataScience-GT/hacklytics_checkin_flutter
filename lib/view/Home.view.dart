@@ -139,7 +139,8 @@ class _HomeViewState extends State<HomeView> {
 
     return _error.isNotEmpty
         ? StatusCard(message: _error, success: false)
-        : ListViewCard(children: [
+        : SingleChildScrollView(
+            child: ListViewCard(labelText: "Events", children: [
             ListView.separated(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
@@ -162,6 +163,9 @@ class _HomeViewState extends State<HomeView> {
                     ]),
                     subtitle: Text(_events[index].description ?? ""),
                     enabled: _events[index].status == true,
+                    trailing: _events[index].status == true
+                        ? const Icon(Icons.chevron_right)
+                        : null,
                     onTap: () {
                       // go to event page
                       print("event pressed ${_events[index].name}");
@@ -171,7 +175,7 @@ class _HomeViewState extends State<HomeView> {
                 separatorBuilder: (context, index) {
                   return const Divider();
                 })
-          ]);
+          ]));
   }
 
   getUserInfo(Function(Status) callback) async {
