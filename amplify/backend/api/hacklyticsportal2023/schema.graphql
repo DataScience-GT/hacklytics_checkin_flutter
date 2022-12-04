@@ -35,6 +35,25 @@ type Event
   location: String
 }
 
+type Checkin
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [read, create, update, delete]
+      }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  
+  id: ID!
+  createdBy: String!
+  event: Event!
+  user: String!
+}
+
 type Query {
   # @model
   # @auth(

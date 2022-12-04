@@ -21,16 +21,18 @@
 
 import 'package:amplify_core/amplify_core.dart';
 import 'AdminSettings.dart';
+import 'Checkin.dart';
 import 'Event.dart';
 
 export 'AdminSettings.dart';
+export 'Checkin.dart';
 export 'Event.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "c67a12761bbd0618935740b933e548b3";
+  String version = "ce5602b1eaab320273cf91edb73f1456";
   @override
-  List<ModelSchema> modelSchemas = [AdminSettings.schema, Event.schema];
+  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -41,6 +43,8 @@ class ModelProvider implements ModelProviderInterface {
     switch(modelName) {
       case "AdminSettings":
         return AdminSettings.classType;
+      case "Checkin":
+        return Checkin.classType;
       case "Event":
         return Event.classType;
       default:
