@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:hacklytics_checkin_flutter/components/ListViewCard.component.dart';
 
 import 'package:hacklytics_checkin_flutter/models/Event.dart';
+import 'package:intl/intl.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({required this.event, super.key});
@@ -64,8 +65,15 @@ class EventCard extends StatelessWidget {
   }
 
   _buildListTileDate(String title, TemporalDateTime? date) {
+    final DateFormat formatter = DateFormat('M/d/yyyy h:mm a');
     // format date
-    String formattedDate = date != null ? date.format() : "";
+    // String formattedDate =
+    //     date != null ? formatter.format(date as DateTime) : "";
+    String formattedDate = "";
+    if (date != null) {
+      var d = DateTime.parse(date.toString()).toLocal();
+      formattedDate = formatter.format(d);
+    }
 
     return ListTile(
       title: Text(title),
