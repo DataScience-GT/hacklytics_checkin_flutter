@@ -10,7 +10,7 @@ class CheckinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListViewCard(children: [
-      _buildListTile("User: ${fakeCheckin.user}", fakeCheckin.createdAtString),
+      _buildListTile(fakeCheckin.user, fakeCheckin.createdAtString),
     ]);
   }
 
