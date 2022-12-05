@@ -2,7 +2,7 @@
     package="com.example.hacklytics_checkin_flutter">
     <uses-permission android:name="android.permission.NFC" />
    <application
-        android:label="Hacklytics"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

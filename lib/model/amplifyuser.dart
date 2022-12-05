@@ -21,10 +21,10 @@ class AmplifyUser {
     final response = utf8.decode(base64Url.decode(normalized));
 
     var json = jsonDecode(response);
-    groups = json['cognito:groups'];
-    username = json['username'];
-    deviceKey = json['device_key'];
-    clientId = json['client_id'];
+    groups = json['cognito:groups'] ?? [];
+    username = json['username'] ?? "";
+    deviceKey = json['device_key'] ?? "";
+    clientId = json['client_id'] ?? "";
 
     // check if the user is in the allowed groups
     for (var group in groups) {
