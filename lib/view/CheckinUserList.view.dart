@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:hacklytics_checkin_flutter/components/CheckinCard.component.dart';
 import 'package:hacklytics_checkin_flutter/components/statuscard.component.dart';
 import 'package:hacklytics_checkin_flutter/model/status.dart';
 import 'package:hacklytics_checkin_flutter/models/Event.dart';
@@ -97,10 +98,7 @@ class _CheckinUserListState extends State<CheckinUserListView> {
         child: ListView.builder(
           itemCount: _checkins.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(_checkins[index].user),
-              subtitle: Text(_checkins[index].createdAtString),
-            );
+            return CheckinCard(fakeCheckin: _checkins[index]);
           },
         ),
         onRefresh: () async {
