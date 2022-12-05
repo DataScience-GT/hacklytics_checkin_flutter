@@ -132,7 +132,9 @@ class _HomeViewState extends State<HomeView> {
 
     return _loadingEvents
         ? const Center(child: CircularProgressIndicator())
-        : _buildBodyWithEvents();
+        : (_events.isEmpty
+            ? const Center(child: Text("No events found."))
+            : _buildBodyWithEvents());
   }
 
   _buildBodyWithEvents() {
