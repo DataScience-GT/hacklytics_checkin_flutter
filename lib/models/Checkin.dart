@@ -30,8 +30,8 @@ class Checkin extends Model {
   static const classType = const _CheckinModelType();
   final String id;
   final String? _createdBy;
-  final Event? _event;
   final String? _user;
+  final Event? _event;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -56,19 +56,6 @@ class Checkin extends Model {
     }
   }
   
-  Event get event {
-    try {
-      return _event!;
-    } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
-  }
-  
   String get user {
     try {
       return _user!;
@@ -82,6 +69,10 @@ class Checkin extends Model {
     }
   }
   
+  Event? get event {
+    return _event;
+  }
+  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -90,14 +81,14 @@ class Checkin extends Model {
     return _updatedAt;
   }
   
-  const Checkin._internal({required this.id, required createdBy, required event, required user, createdAt, updatedAt}): _createdBy = createdBy, _event = event, _user = user, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Checkin._internal({required this.id, required createdBy, required user, event, createdAt, updatedAt}): _createdBy = createdBy, _user = user, _event = event, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Checkin({String? id, required String createdBy, required Event event, required String user}) {
+  factory Checkin({String? id, required String createdBy, required String user, Event? event}) {
     return Checkin._internal(
       id: id == null ? UUID.getUUID() : id,
       createdBy: createdBy,
-      event: event,
-      user: user);
+      user: user,
+      event: event);
   }
   
   bool equals(Object other) {
@@ -110,8 +101,8 @@ class Checkin extends Model {
     return other is Checkin &&
       id == other.id &&
       _createdBy == other._createdBy &&
-      _event == other._event &&
-      _user == other._user;
+      _user == other._user &&
+      _event == other._event;
   }
   
   @override
@@ -125,6 +116,7 @@ class Checkin extends Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("createdBy=" + "$_createdBy" + ", ");
     buffer.write("user=" + "$_user" + ", ");
+    buffer.write("event=" + (_event != null ? _event!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -132,38 +124,38 @@ class Checkin extends Model {
     return buffer.toString();
   }
   
-  Checkin copyWith({String? id, String? createdBy, Event? event, String? user}) {
+  Checkin copyWith({String? id, String? createdBy, String? user, Event? event}) {
     return Checkin._internal(
       id: id ?? this.id,
       createdBy: createdBy ?? this.createdBy,
-      event: event ?? this.event,
-      user: user ?? this.user);
+      user: user ?? this.user,
+      event: event ?? this.event);
   }
   
   Checkin.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _createdBy = json['createdBy'],
+      _user = json['user'],
       _event = json['event']?['serializedData'] != null
         ? Event.fromJson(new Map<String, dynamic>.from(json['event']['serializedData']))
         : null,
-      _user = json['user'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'createdBy': _createdBy, 'event': _event?.toJson(), 'user': _user, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'createdBy': _createdBy, 'user': _user, 'event': _event?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'createdBy': _createdBy, 'event': _event, 'user': _user, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'createdBy': _createdBy, 'user': _user, 'event': _event, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField CREATEDBY = QueryField(fieldName: "createdBy");
+  static final QueryField USER = QueryField(fieldName: "user");
   static final QueryField EVENT = QueryField(
     fieldName: "event",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Event).toString()));
-  static final QueryField USER = QueryField(fieldName: "user");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Checkin";
     modelSchemaDefinition.pluralName = "Checkins";
@@ -195,17 +187,17 @@ class Checkin extends Model {
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-      key: Checkin.EVENT,
-      isRequired: true,
-      ofModelName: (Event).toString(),
-      associatedKey: Event.ID
-    ));
-    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Checkin.USER,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: Checkin.EVENT,
+      isRequired: false,
+      targetName: "eventCheckinsId",
+      ofModelName: (Event).toString()
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(

@@ -48,7 +48,7 @@ type Checkin
       { allow: private, operations: [read] }
     ]
   ) {
-  checkinId: ID!
+  id: ID!
   createdBy: String!
   user: String!
   event: Event @belongsTo
