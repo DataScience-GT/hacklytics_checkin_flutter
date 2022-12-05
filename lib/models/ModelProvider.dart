@@ -30,7 +30,7 @@ export 'Event.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "ce5602b1eaab320273cf91edb73f1456";
+  String version = "076bd44df43f4699a97d330ec16b04cb";
   @override
   List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema];
   static final ModelProvider _instance = ModelProvider();

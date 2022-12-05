@@ -19,6 +19,7 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -29,6 +30,7 @@ class Checkin extends Model {
   static const classType = const _CheckinModelType();
   final String id;
   final String? _createdBy;
+  final Event? _event;
   final String? _user;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -44,6 +46,19 @@ class Checkin extends Model {
   String get createdBy {
     try {
       return _createdBy!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Event get event {
+    try {
+      return _event!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -75,12 +90,13 @@ class Checkin extends Model {
     return _updatedAt;
   }
   
-  const Checkin._internal({required this.id, required createdBy, required user, createdAt, updatedAt}): _createdBy = createdBy, _user = user, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Checkin._internal({required this.id, required createdBy, required event, required user, createdAt, updatedAt}): _createdBy = createdBy, _event = event, _user = user, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Checkin({String? id, required String createdBy, required String user}) {
+  factory Checkin({String? id, required String createdBy, required Event event, required String user}) {
     return Checkin._internal(
       id: id == null ? UUID.getUUID() : id,
       createdBy: createdBy,
+      event: event,
       user: user);
   }
   
@@ -94,6 +110,7 @@ class Checkin extends Model {
     return other is Checkin &&
       id == other.id &&
       _createdBy == other._createdBy &&
+      _event == other._event &&
       _user == other._user;
   }
   
@@ -115,30 +132,37 @@ class Checkin extends Model {
     return buffer.toString();
   }
   
-  Checkin copyWith({String? id, String? createdBy, String? user}) {
+  Checkin copyWith({String? id, String? createdBy, Event? event, String? user}) {
     return Checkin._internal(
       id: id ?? this.id,
       createdBy: createdBy ?? this.createdBy,
+      event: event ?? this.event,
       user: user ?? this.user);
   }
   
   Checkin.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _createdBy = json['createdBy'],
+      _event = json['event']?['serializedData'] != null
+        ? Event.fromJson(new Map<String, dynamic>.from(json['event']['serializedData']))
+        : null,
       _user = json['user'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'createdBy': _createdBy, 'user': _user, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'createdBy': _createdBy, 'event': _event?.toJson(), 'user': _user, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'createdBy': _createdBy, 'user': _user, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'createdBy': _createdBy, 'event': _event, 'user': _user, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField CREATEDBY = QueryField(fieldName: "createdBy");
+  static final QueryField EVENT = QueryField(
+    fieldName: "event",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Event).toString()));
   static final QueryField USER = QueryField(fieldName: "user");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Checkin";
@@ -169,6 +193,13 @@ class Checkin extends Model {
       key: Checkin.CREATEDBY,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+      key: Checkin.EVENT,
+      isRequired: true,
+      ofModelName: (Event).toString(),
+      associatedKey: Event.ID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
