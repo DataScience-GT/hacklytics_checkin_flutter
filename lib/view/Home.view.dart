@@ -132,7 +132,9 @@ class _HomeViewState extends State<HomeView> {
 
     return _loadingEvents
         ? const Center(child: CircularProgressIndicator())
-        : _buildBodyWithEvents();
+        : (_events.isEmpty
+            ? const Center(child: Text("No events found."))
+            : _buildBodyWithEvents());
   }
 
   _buildBodyWithEvents() {
@@ -174,7 +176,10 @@ class _HomeViewState extends State<HomeView> {
                                 : Colors.red.shade500,
                           )
                         ]),
-                        subtitle: Text(_events[index].description ?? ""),
+                        subtitle: _events[index].description != null &&
+                                _events[index].description!.isNotEmpty
+                            ? Text(_events[index].description ?? "")
+                            : null,
                         // enabled: _events[index].status == true,
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
