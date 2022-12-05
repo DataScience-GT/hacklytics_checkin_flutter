@@ -60,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
         const DrawerHeader(
           child: Text("Hacklytics"),
         ),
-        _loadingUser == false && _user.hasAccess
+        _loadingUser == false && _error.isEmpty && _user.hasAccess
             ? Column(children: [
                 ListTile(
                   title: const Text("General NFC"),
