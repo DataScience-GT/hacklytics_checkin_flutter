@@ -50,8 +50,10 @@ type Checkin
   ) {
   id: ID!
   createdBy: String!
+  createdByName: String!
   user: String!
-  event: Event @belongsTo
+  userName: String!
+  event: Event! @belongsTo
 }
 
 type Query {
