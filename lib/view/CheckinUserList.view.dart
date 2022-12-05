@@ -139,7 +139,9 @@ class _CheckinUserListState extends State<CheckinUserListView> {
     }
     id
     user
+    userName
     createdBy
+    createdByName
     createdAt
   }
 }''');
@@ -163,7 +165,9 @@ class _CheckinUserListState extends State<CheckinUserListView> {
 class FakeCheckin {
   late String id;
   late String user;
+  late String userName;
   late String createdBy;
+  late String createdByName;
   late DateTime createdAt;
   late String createdAtString;
 
@@ -173,8 +177,10 @@ class FakeCheckin {
     id = checkin.id;
     user = checkin.user;
     createdBy = checkin.createdBy;
+    createdByName = checkin.createdByName;
     createdAt = checkin.createdAt!.getDateTimeInUtc().toLocal();
-    eventId = checkin.event!.id;
+    eventId = checkin.event.id;
+
     _loadDateString();
   }
 
