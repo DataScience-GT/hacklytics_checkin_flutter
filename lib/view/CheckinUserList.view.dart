@@ -176,6 +176,7 @@ class FakeCheckin {
   FakeCheckin(Checkin checkin) {
     id = checkin.id;
     user = checkin.user;
+    userName = checkin.userName;
     createdBy = checkin.createdBy;
     createdByName = checkin.createdByName;
     createdAt = checkin.createdAt!.getDateTimeInUtc().toLocal();
