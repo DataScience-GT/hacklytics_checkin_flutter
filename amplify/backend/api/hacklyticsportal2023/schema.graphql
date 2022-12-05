@@ -47,10 +47,9 @@ type Checkin
       { allow: private, operations: [read] }
     ]
   ) {
-  
   id: ID!
   createdBy: String!
-  event: Event!
+  event: Event! @hasOne(fields: ["id"])
   user: String!
 }
 

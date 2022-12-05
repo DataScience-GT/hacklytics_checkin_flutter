@@ -2,7 +2,7 @@
 $util.qr($ctx.stash.put("hasAuth", true))
 #set( $isAuthorized = false )
 #if( $util.authType() == "API Key Authorization" )
-$util.unauthorized()
+
 #end
 #if( $util.authType() == "IAM Authorization" )
   #set( $adminRoles = ["us-east-1_ooxChp1Q0_Full-access/CognitoIdentityCredentials","us-east-1_ooxChp1Q0_Manage-only/CognitoIdentityCredentials","hacklyticsportal20232e32fd51-staging","hacklyticsportal2023listusers-staging","hacklyticsportal2023checkinuser-staging"] )
@@ -14,6 +14,7 @@ $util.unauthorized()
 $util.unauthorized()
 #end
 #if( $util.authType() == "User Pool Authorization" )
+  #set( $isAuthorized = true )
   #if( !$isAuthorized )
     #set( $staticGroupRoles = [{"claim":"cognito:groups","entity":"Administrator"}] )
     #foreach( $groupRole in $staticGroupRoles )
@@ -25,7 +26,7 @@ $util.unauthorized()
     #end
   #end
 #end
-#if( !$isAuthorized )
+#if( !$isAuthorized && $util.isNull($ctx.stash.authFilter) )
 $util.unauthorized()
 #end
 $util.toJson({"version":"2018-05-29","payload":{}})

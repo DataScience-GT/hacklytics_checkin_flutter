@@ -64,7 +64,10 @@
           "deploymentBucketName": "amplify-amplify0f0acd1e2a0b4-staging-14346-deployment",
           "s3Key": "amplify-builds/hacklyticsportal2023listusers-434a3932506667747356-build.zip"
         },
-        "hacklyticsportal2023checkinuser": {}
+        "hacklyticsportal2023checkinuser": {
+          "deploymentBucketName": "amplify-amplify0f0acd1e2a0b4-staging-14346-deployment",
+          "s3Key": "amplify-builds/hacklyticsportal2023checkinuser-7a2f687a6e756b556a73-build.zip"
+        }
       }
     }
   }
