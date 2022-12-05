@@ -188,7 +188,9 @@ class FakeCheckin {
   FakeCheckin.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user = json['user'];
+    userName = json['userName'];
     createdBy = json['createdBy'];
+    createdByName = json['createdByName'];
     createdAt = DateTime.parse(json['createdAt']).toLocal();
     eventId = json['event']['id'];
     _loadDateString();
