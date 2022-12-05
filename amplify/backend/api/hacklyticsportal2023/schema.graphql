@@ -68,3 +68,18 @@ type Query {
     @function(name: "hacklyticsportal20232e32fd51-${env}")
   listUsers: String @function(name: "hacklyticsportal2023listusers-${env}")
 }
+
+type Mutation {
+  # @model
+  # @auth(
+  #   rules: [
+  #     {
+  #       allow: groups
+  #       groups: ["AndroidApp"]
+  #       operations: [read, create, update, delete]
+  #     }
+  #   ]
+  # )
+  createCheckinFunc(event_id: ID!, user_uuid: String!): String
+    @function(name: "hacklyticsportal2023checkinuser-${env}")
+}

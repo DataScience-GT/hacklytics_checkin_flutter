@@ -17,6 +17,7 @@ const { request, GraphQLClient } = require("graphql-request");
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
+    console.log(process.env)
   try {
     console.log(event);
     // verify that the user exists
