@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hacklytics_checkin_flutter/components/EventCard.component.dart';
 import 'package:hacklytics_checkin_flutter/components/ListViewCard.component.dart';
+import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
+import 'package:hacklytics_checkin_flutter/model/user.dart';
 
 import 'package:hacklytics_checkin_flutter/models/Event.dart';
 import 'package:hacklytics_checkin_flutter/view/CheckinUserList.view.dart';
@@ -8,9 +10,10 @@ import 'package:hacklytics_checkin_flutter/view/CheckinUserList.view.dart';
 import 'EventCheckin.view.dart';
 
 class EventView extends StatelessWidget {
-  const EventView({required this.event, super.key});
+  const EventView({required this.event, required this.user, super.key});
 
   final Event event;
+  final AmplifyUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,8 @@ class EventView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EventCheckinView(event: event),
+                      builder: (context) =>
+                          EventCheckinView(event: event, user: user),
                     ),
                   );
                 },
