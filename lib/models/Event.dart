@@ -36,6 +36,7 @@ class Event extends Model {
   final TemporalDateTime? _start;
   final TemporalDateTime? _end;
   final String? _location;
+  final int? _points;
   final List<Checkin>? _checkins;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -81,6 +82,10 @@ class Event extends Model {
     return _location;
   }
   
+  int? get points {
+    return _points;
+  }
+  
   List<Checkin>? get checkins {
     return _checkins;
   }
@@ -93,9 +98,9 @@ class Event extends Model {
     return _updatedAt;
   }
   
-  const Event._internal({required this.id, required name, description, status, start, end, location, checkins, createdAt, updatedAt}): _name = name, _description = description, _status = status, _start = start, _end = end, _location = location, _checkins = checkins, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Event._internal({required this.id, required name, description, status, start, end, location, points, checkins, createdAt, updatedAt}): _name = name, _description = description, _status = status, _start = start, _end = end, _location = location, _points = points, _checkins = checkins, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Event({String? id, required String name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, List<Checkin>? checkins}) {
+  factory Event({String? id, required String name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
@@ -104,6 +109,7 @@ class Event extends Model {
       start: start,
       end: end,
       location: location,
+      points: points,
       checkins: checkins != null ? List<Checkin>.unmodifiable(checkins) : checkins);
   }
   
@@ -122,6 +128,7 @@ class Event extends Model {
       _start == other._start &&
       _end == other._end &&
       _location == other._location &&
+      _points == other._points &&
       DeepCollectionEquality().equals(_checkins, other._checkins);
   }
   
@@ -140,6 +147,7 @@ class Event extends Model {
     buffer.write("start=" + (_start != null ? _start!.format() : "null") + ", ");
     buffer.write("end=" + (_end != null ? _end!.format() : "null") + ", ");
     buffer.write("location=" + "$_location" + ", ");
+    buffer.write("points=" + (_points != null ? _points!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -147,7 +155,7 @@ class Event extends Model {
     return buffer.toString();
   }
   
-  Event copyWith({String? id, String? name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, List<Checkin>? checkins}) {
+  Event copyWith({String? id, String? name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -156,6 +164,7 @@ class Event extends Model {
       start: start ?? this.start,
       end: end ?? this.end,
       location: location ?? this.location,
+      points: points ?? this.points,
       checkins: checkins ?? this.checkins);
   }
   
@@ -167,6 +176,7 @@ class Event extends Model {
       _start = json['start'] != null ? TemporalDateTime.fromString(json['start']) : null,
       _end = json['end'] != null ? TemporalDateTime.fromString(json['end']) : null,
       _location = json['location'],
+      _points = (json['points'] as num?)?.toInt(),
       _checkins = json['checkins'] is List
         ? (json['checkins'] as List)
           .where((e) => e?['serializedData'] != null)
@@ -177,11 +187,11 @@ class Event extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start?.format(), 'end': _end?.format(), 'location': _location, 'checkins': _checkins?.map((Checkin? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start?.format(), 'end': _end?.format(), 'location': _location, 'points': _points, 'checkins': _checkins?.map((Checkin? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start, 'end': _end, 'location': _location, 'checkins': _checkins, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start, 'end': _end, 'location': _location, 'points': _points, 'checkins': _checkins, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -191,9 +201,10 @@ class Event extends Model {
   static final QueryField START = QueryField(fieldName: "start");
   static final QueryField END = QueryField(fieldName: "end");
   static final QueryField LOCATION = QueryField(fieldName: "location");
+  static final QueryField POINTS = QueryField(fieldName: "points");
   static final QueryField CHECKINS = QueryField(
     fieldName: "checkins",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Checkin).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Checkin'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Event";
     modelSchemaDefinition.pluralName = "Events";
@@ -255,10 +266,16 @@ class Event extends Model {
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Event.POINTS,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+    ));
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Event.CHECKINS,
       isRequired: false,
-      ofModelName: (Checkin).toString(),
+      ofModelName: 'Checkin',
       associatedKey: Checkin.EVENT
     ));
     
@@ -284,5 +301,10 @@ class _EventModelType extends ModelType<Event> {
   @override
   Event fromJson(Map<String, dynamic> jsonData) {
     return Event.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Event';
   }
 }

@@ -23,16 +23,22 @@ import 'package:amplify_core/amplify_core.dart';
 import 'AdminSettings.dart';
 import 'Checkin.dart';
 import 'Event.dart';
+import 'Points.dart';
+import 'ScavengerHunt.dart';
+import 'ScavengerHuntCheckin.dart';
 
 export 'AdminSettings.dart';
 export 'Checkin.dart';
 export 'Event.dart';
+export 'Points.dart';
+export 'ScavengerHunt.dart';
+export 'ScavengerHuntCheckin.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "53653849c9b70291a4496b3bef56da08";
+  String version = "011fd582fc955d92c04e4469c7437e23";
   @override
-  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema];
+  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema, Points.schema, ScavengerHunt.schema, ScavengerHuntCheckin.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -47,6 +53,12 @@ class ModelProvider implements ModelProviderInterface {
         return Checkin.classType;
       case "Event":
         return Event.classType;
+      case "Points":
+        return Points.classType;
+      case "ScavengerHunt":
+        return ScavengerHunt.classType;
+      case "ScavengerHuntCheckin":
+        return ScavengerHuntCheckin.classType;
       default:
         throw Exception("Failed to find model in model provider for model name: " + modelName);
     }

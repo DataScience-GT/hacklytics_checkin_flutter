@@ -204,7 +204,7 @@ class Checkin extends Model {
   static final QueryField USERNAME = QueryField(fieldName: "userName");
   static final QueryField EVENT = QueryField(
     fieldName: "event",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Event).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Event'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Checkin";
     modelSchemaDefinition.pluralName = "Checkins";
@@ -257,8 +257,8 @@ class Checkin extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Checkin.EVENT,
       isRequired: true,
-      targetName: "eventCheckinsId",
-      ofModelName: (Event).toString()
+      targetName: 'eventCheckinsId',
+      ofModelName: 'Event'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -283,5 +283,10 @@ class _CheckinModelType extends ModelType<Checkin> {
   @override
   Checkin fromJson(Map<String, dynamic> jsonData) {
     return Checkin.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Checkin';
   }
 }

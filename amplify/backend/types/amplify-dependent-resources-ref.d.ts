@@ -1,40 +1,42 @@
 export type AmplifyDependentResourcesAttributes = {
-    "auth": {
-        "hacklyticsportal2023": {
-            "IdentityPoolId": "string",
-            "IdentityPoolName": "string",
-            "UserPoolId": "string",
-            "UserPoolArn": "string",
-            "UserPoolName": "string",
-            "AppClientIDWeb": "string",
-            "AppClientID": "string"
-        }
-    },
-    "api": {
-        "hacklyticsportal2023": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
-        }
-    },
-    "storage": {
-        "imagestorage": {
-            "BucketName": "string",
-            "Region": "string"
-        }
-    },
-    "function": {
-        "hacklyticsportal20232e32fd51": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "hacklyticsportal2023listusers": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        }
+  "api": {
+    "hacklyticsportal2023": {
+      "GraphQLAPIEndpointOutput": "string",
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
     }
+  },
+  "auth": {
+    "hacklyticsportal2023": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
+      "UserPoolArn": "string",
+      "UserPoolId": "string",
+      "UserPoolName": "string"
+    }
+  },
+  "function": {
+    "hacklyticsportal20232e32fd51": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "hacklyticsportal2023listusers": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    }
+  },
+  "storage": {
+    "imagestorage": {
+      "BucketName": "string",
+      "Region": "string"
+    }
+  }
 }
