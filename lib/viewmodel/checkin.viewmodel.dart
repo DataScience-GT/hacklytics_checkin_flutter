@@ -137,19 +137,33 @@ class CheckinViewModel extends ChangeNotifier {
 
     var request2 = ModelMutations.create(c);
 
-    var operation2 = Amplify.API.mutate(request: request2);
-    var response2 = await operation2.response;
-    if (response2.errors.isNotEmpty) {
-      _error = response2.errors.first.message;
+    // var operation2 = Amplify.API.mutate(request: request2);
+    // var response2 = await operation2.response;
+    // if (response2.errors.isNotEmpty) {
+    //   _error = response2.errors.first.message;
 
-      _loadingUser = false;
-      if (_mounted) notifyListeners();
-      return;
-    }
+    //   _loadingUser = false;
+    //   if (_mounted) notifyListeners();
+    //   return;
+    // }
 
+    // final predicate = Points.USERID.eq(_user.username);
+    // var request3 = ModelQueries.list(Points.classType, where: predicate);
+    // var operation3 = Amplify.API.query(request: request3);
+    // var response3 = await operation3.response;
     // get user points
-    final predicate = Points.USERID.eq(_user.username);
-    var request3 = ModelQueries.list(Points.classType, where: predicate);
+    var request3 = GraphQLRequest(document: '''
+          query queryPoints {
+            listPoints(filter: {userID: {eq: "${_user.username}"}}) {
+              items {
+                id
+                userID
+                points
+                version: _version
+              }
+            }
+          }
+          ''');
     var operation3 = Amplify.API.query(request: request3);
     var response3 = await operation3.response;
 
@@ -161,8 +175,32 @@ class CheckinViewModel extends ChangeNotifier {
       return;
     }
 
-    var points = response3.data?.items as List<Points?>;
-    if (points.isEmpty) {
+    var pointsJson = jsonDecode(response3.data);
+    var points = pointsJson["listPoints"]["items"];
+
+    if (points.isNotEmpty) {
+      // update points
+      var p = points.first!;
+
+      var request4 = GraphQLRequest(document: '''
+      mutation updatePoints {
+        updatePoints(input: {id: "${p["id"]}", points: ${p["points"] + (event.points ?? 0)}, _version: ${p["version"]}}) {
+          id
+          points
+        }
+      }
+      ''');
+      var operation4 = Amplify.API.mutate(request: request4);
+      var response4 = await operation4.response;
+
+      if (response4.errors.isNotEmpty) {
+        _error = response4.errors.first.message;
+
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
+      }
+    } else {
       // create new points
       Points p = Points(
           userID: _user.username,
@@ -173,32 +211,6 @@ class CheckinViewModel extends ChangeNotifier {
       var response4 = await operation4.response;
       if (response4.errors.isNotEmpty) {
         _error = response4.errors.first.message;
-
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
-      }
-    } else {
-      // update points
-      Points p = points.first!;
-      Points updated = p.copyWith(points: p.points + (event.points ?? 0));
-      // delete the existing points
-      var request5 = ModelMutations.delete(p);
-      var operation5 = Amplify.API.mutate(request: request5);
-      var response5 = await operation5.response;
-      if (response5.errors.isNotEmpty) {
-        _error = response5.errors.first.message;
-
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
-      }
-      // create new points
-      var request6 = ModelMutations.create(updated);
-      var operation6 = Amplify.API.mutate(request: request6);
-      var response6 = await operation6.response;
-      if (response6.errors.isNotEmpty) {
-        _error = response6.errors.first.message;
 
         _loadingUser = false;
         if (_mounted) notifyListeners();
