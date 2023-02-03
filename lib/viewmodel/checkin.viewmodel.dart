@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_api/model_mutations.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
 import 'package:hacklytics_checkin_flutter/model/record.dart';
 import 'package:hacklytics_checkin_flutter/model/user.dart';
+import 'package:hacklytics_checkin_flutter/models/Checkin.dart';
 import 'package:hacklytics_checkin_flutter/models/Event.dart';
+import 'package:hacklytics_checkin_flutter/models/ModelProvider.dart';
 import 'package:hacklytics_checkin_flutter/utils/nfc/read.nfc.dart';
 
 class CheckinViewModel extends ChangeNotifier {
@@ -117,17 +121,80 @@ class CheckinViewModel extends ChangeNotifier {
         .value;
 
     // check the user in
-    var request2 = GraphQLRequest(document: '''
-          mutation createCheckin {
-            createCheckin(input: {user: "${_user.username}", userName: "${_user.attributes["name"]}", createdBy: "${currentUser.username}", createdByName: "$currentUserName", event: "${event.id}"}) {
-              id
-            }
-          }
-          ''');
+    // var request2 = GraphQLRequest(document: '''
+    //       mutation createCheckin {
+    //         createCheckin(input: {user: "${_user.username}", userName: "${_user.attributes["name"]}", createdBy: "${currentUser.username}", createdByName: "$currentUserName", event: "${event.id}"}) {
+    //           id
+    //         }
+    //       }
+    //       ''');
+    Checkin c = Checkin(
+        user: _user.username,
+        userName: _user.attributes["name"],
+        createdBy: currentUser.username,
+        createdByName: currentUserName,
+        event: event);
+
+    var request2 = ModelMutations.create(c);
 
     var operation2 = Amplify.API.mutate(request: request2);
     var response2 = await operation2.response;
-    print(response2.data);
+    if (response2.errors.isNotEmpty) {
+      _error = response2.errors.first.message;
+
+      _loadingUser = false;
+      if (_mounted) notifyListeners();
+      return;
+    }
+
+    // get user points
+    final predicate = Points.USERID.eq(_user.username);
+    var request3 = ModelQueries.list(Points.classType, where: predicate);
+    var operation3 = Amplify.API.query(request: request3);
+    var response3 = await operation3.response;
+
+    if (response3.errors.isNotEmpty) {
+      _error = response3.errors.first.message;
+
+      _loadingUser = false;
+      if (_mounted) notifyListeners();
+      return;
+    }
+
+    var points = response3.data?.items as List<Points?>;
+    if (points.isEmpty) {
+      // create new points
+      Points p = Points(
+          userID: _user.username,
+          points: event.points ?? 0,
+          userName: _user.attributes["name"]);
+      var request4 = ModelMutations.create(p);
+      var operation4 = Amplify.API.mutate(request: request4);
+      var response4 = await operation4.response;
+      if (response4.errors.isNotEmpty) {
+        _error = response4.errors.first.message;
+
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
+      }
+    } else {
+      // update points
+      Points p = points.first!;
+      Points updated = p.copyWith(points: p.points + (event.points ?? 0));
+
+      var request5 = ModelMutations.update(updated);
+      var operation5 = Amplify.API.mutate(request: request5);
+      var response5 = await operation5.response;
+      if (response5.errors.isNotEmpty) {
+        _error = response5.errors.first.message;
+
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
+      }
+      print(response5.data);
+    }
 
     _loadingUser = false;
 
@@ -136,8 +203,8 @@ class CheckinViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    _mounted = false;
     super.dispose();
+    _mounted = false;
   }
 }
 

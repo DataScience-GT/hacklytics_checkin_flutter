@@ -41,7 +41,8 @@ class _EventCheckinState extends State<EventCheckinView> {
                       value.loadUser();
                     }))
                   : (!value.isHacklytics
-                      ? const Center(child: Text("No Hacklytics Record."))
+                      ? const Center(
+                          child: Text("Card not formatted properly."))
                       : (value.loadingUser
                           ? const Center(child: CircularProgressIndicator())
                           : (value.error.isNotEmpty
@@ -54,9 +55,16 @@ class _EventCheckinState extends State<EventCheckinView> {
                                         child: Text(value.error)),
                                   ))
                                 ])
-                              : (value.user is User
-                                  ? value.user.widget()
-                                  : Text(value.user)))));
+                              : Row(children: [
+                                  Expanded(
+                                      child: Card(
+                                    color: Colors.green.shade400,
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(24),
+                                        child:
+                                            Text("User has been checked in.")),
+                                  ))
+                                ]))));
             },
           ),
         ));
