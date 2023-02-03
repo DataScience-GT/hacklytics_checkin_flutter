@@ -2,16 +2,17 @@ type AdminSettings
   @model
   @auth(
     rules: [
+      { allow: public }
       {
         allow: groups
         groups: ["Administrator"]
         operations: [read, create, update, delete]
       }
-      { allow: private, operations: [read] }
     ]
   ) {
   id: ID!
   hacklyticsOpen: Boolean
+  participantEmails: [String]
 }
 
 type Event
@@ -33,6 +34,7 @@ type Event
   start: AWSDateTime
   end: AWSDateTime
   location: String
+  points: Int
   checkins: [Checkin] @hasMany
 }
 
@@ -57,17 +59,60 @@ type Checkin
 }
 
 type Query {
-  # @model
-  # @auth(
-  #   rules: [
-  #     {
-  #       allow: groups
-  #       groups: ["AndroidApp"]
-  #       operations: [read, create, update, delete]
-  #     }
-  #   ]
-  # )
   getUserById(user_uuid: String): String
     @function(name: "hacklyticsportal20232e32fd51-${env}")
   listUsers: String @function(name: "hacklyticsportal2023listusers-${env}")
+}
+
+type Points
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [read, create, update, delete]
+      }
+      { allow: private, operations: [read, create, update] }
+    ]
+  ) {
+  userID: String!
+  userName: String
+  points: Int!
+}
+
+type ScavengerHunt
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [read, create, update, delete]
+      }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  status: Boolean
+  points: Int
+}
+
+type ScavengerHuntCheckin
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [read, create, update, delete]
+      }
+      { allow: private, operations: [read, create] }
+    ]
+  ) {
+  id: ID!
+  checkpointID: String!
+  userID: String!
 }

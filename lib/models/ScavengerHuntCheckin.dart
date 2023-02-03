@@ -20,17 +20,16 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the AdminSettings type in your schema. */
+/** This is an auto generated class representing the ScavengerHuntCheckin type in your schema. */
 @immutable
-class AdminSettings extends Model {
-  static const classType = const _AdminSettingsModelType();
+class ScavengerHuntCheckin extends Model {
+  static const classType = const _ScavengerHuntCheckinModelType();
   final String id;
-  final bool? _hacklyticsOpen;
-  final List<String>? _participantEmails;
+  final String? _checkpointID;
+  final String? _userID;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -42,12 +41,30 @@ class AdminSettings extends Model {
     return id;
   }
   
-  bool? get hacklyticsOpen {
-    return _hacklyticsOpen;
+  String get checkpointID {
+    try {
+      return _checkpointID!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
-  List<String>? get participantEmails {
-    return _participantEmails;
+  String get userID {
+    try {
+      return _userID!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
   TemporalDateTime? get createdAt {
@@ -58,13 +75,13 @@ class AdminSettings extends Model {
     return _updatedAt;
   }
   
-  const AdminSettings._internal({required this.id, hacklyticsOpen, participantEmails, createdAt, updatedAt}): _hacklyticsOpen = hacklyticsOpen, _participantEmails = participantEmails, _createdAt = createdAt, _updatedAt = updatedAt;
+  const ScavengerHuntCheckin._internal({required this.id, required checkpointID, required userID, createdAt, updatedAt}): _checkpointID = checkpointID, _userID = userID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory AdminSettings({String? id, bool? hacklyticsOpen, List<String>? participantEmails}) {
-    return AdminSettings._internal(
+  factory ScavengerHuntCheckin({String? id, required String checkpointID, required String userID}) {
+    return ScavengerHuntCheckin._internal(
       id: id == null ? UUID.getUUID() : id,
-      hacklyticsOpen: hacklyticsOpen,
-      participantEmails: participantEmails != null ? List<String>.unmodifiable(participantEmails) : participantEmails);
+      checkpointID: checkpointID,
+      userID: userID);
   }
   
   bool equals(Object other) {
@@ -74,10 +91,10 @@ class AdminSettings extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AdminSettings &&
+    return other is ScavengerHuntCheckin &&
       id == other.id &&
-      _hacklyticsOpen == other._hacklyticsOpen &&
-      DeepCollectionEquality().equals(_participantEmails, other._participantEmails);
+      _checkpointID == other._checkpointID &&
+      _userID == other._userID;
   }
   
   @override
@@ -87,10 +104,10 @@ class AdminSettings extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("AdminSettings {");
+    buffer.write("ScavengerHuntCheckin {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("hacklyticsOpen=" + (_hacklyticsOpen != null ? _hacklyticsOpen!.toString() : "null") + ", ");
-    buffer.write("participantEmails=" + (_participantEmails != null ? _participantEmails!.toString() : "null") + ", ");
+    buffer.write("checkpointID=" + "$_checkpointID" + ", ");
+    buffer.write("userID=" + "$_userID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -98,44 +115,36 @@ class AdminSettings extends Model {
     return buffer.toString();
   }
   
-  AdminSettings copyWith({String? id, bool? hacklyticsOpen, List<String>? participantEmails}) {
-    return AdminSettings._internal(
+  ScavengerHuntCheckin copyWith({String? id, String? checkpointID, String? userID}) {
+    return ScavengerHuntCheckin._internal(
       id: id ?? this.id,
-      hacklyticsOpen: hacklyticsOpen ?? this.hacklyticsOpen,
-      participantEmails: participantEmails ?? this.participantEmails);
+      checkpointID: checkpointID ?? this.checkpointID,
+      userID: userID ?? this.userID);
   }
   
-  AdminSettings.fromJson(Map<String, dynamic> json)  
+  ScavengerHuntCheckin.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _hacklyticsOpen = json['hacklyticsOpen'],
-      _participantEmails = json['participantEmails']?.cast<String>(),
+      _checkpointID = json['checkpointID'],
+      _userID = json['userID'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'hacklyticsOpen': _hacklyticsOpen, 'participantEmails': _participantEmails, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'checkpointID': _checkpointID, 'userID': _userID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'hacklyticsOpen': _hacklyticsOpen, 'participantEmails': _participantEmails, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'checkpointID': _checkpointID, 'userID': _userID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField HACKLYTICSOPEN = QueryField(fieldName: "hacklyticsOpen");
-  static final QueryField PARTICIPANTEMAILS = QueryField(fieldName: "participantEmails");
+  static final QueryField CHECKPOINTID = QueryField(fieldName: "checkpointID");
+  static final QueryField USERID = QueryField(fieldName: "userID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "AdminSettings";
-    modelSchemaDefinition.pluralName = "AdminSettings";
+    modelSchemaDefinition.name = "ScavengerHuntCheckin";
+    modelSchemaDefinition.pluralName = "ScavengerHuntCheckins";
     
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.PUBLIC,
-        operations: [
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE,
-          ModelOperation.READ
-        ]),
       AuthRule(
         authStrategy: AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
@@ -146,22 +155,27 @@ class AdminSettings extends Model {
           ModelOperation.CREATE,
           ModelOperation.UPDATE,
           ModelOperation.DELETE
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.PRIVATE,
+        operations: [
+          ModelOperation.READ,
+          ModelOperation.CREATE
         ])
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: AdminSettings.HACKLYTICSOPEN,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      key: ScavengerHuntCheckin.CHECKPOINTID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: AdminSettings.PARTICIPANTEMAILS,
-      isRequired: false,
-      isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+      key: ScavengerHuntCheckin.USERID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -180,16 +194,16 @@ class AdminSettings extends Model {
   });
 }
 
-class _AdminSettingsModelType extends ModelType<AdminSettings> {
-  const _AdminSettingsModelType();
+class _ScavengerHuntCheckinModelType extends ModelType<ScavengerHuntCheckin> {
+  const _ScavengerHuntCheckinModelType();
   
   @override
-  AdminSettings fromJson(Map<String, dynamic> jsonData) {
-    return AdminSettings.fromJson(jsonData);
+  ScavengerHuntCheckin fromJson(Map<String, dynamic> jsonData) {
+    return ScavengerHuntCheckin.fromJson(jsonData);
   }
   
   @override
   String modelName() {
-    return 'AdminSettings';
+    return 'ScavengerHuntCheckin';
   }
 }

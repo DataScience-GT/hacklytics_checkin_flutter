@@ -20,17 +20,17 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the AdminSettings type in your schema. */
+/** This is an auto generated class representing the Points type in your schema. */
 @immutable
-class AdminSettings extends Model {
-  static const classType = const _AdminSettingsModelType();
+class Points extends Model {
+  static const classType = const _PointsModelType();
   final String id;
-  final bool? _hacklyticsOpen;
-  final List<String>? _participantEmails;
+  final String? _userID;
+  final String? _userName;
+  final int? _points;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -42,12 +42,34 @@ class AdminSettings extends Model {
     return id;
   }
   
-  bool? get hacklyticsOpen {
-    return _hacklyticsOpen;
+  String get userID {
+    try {
+      return _userID!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
-  List<String>? get participantEmails {
-    return _participantEmails;
+  String? get userName {
+    return _userName;
+  }
+  
+  int get points {
+    try {
+      return _points!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
   TemporalDateTime? get createdAt {
@@ -58,13 +80,14 @@ class AdminSettings extends Model {
     return _updatedAt;
   }
   
-  const AdminSettings._internal({required this.id, hacklyticsOpen, participantEmails, createdAt, updatedAt}): _hacklyticsOpen = hacklyticsOpen, _participantEmails = participantEmails, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Points._internal({required this.id, required userID, userName, required points, createdAt, updatedAt}): _userID = userID, _userName = userName, _points = points, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory AdminSettings({String? id, bool? hacklyticsOpen, List<String>? participantEmails}) {
-    return AdminSettings._internal(
+  factory Points({String? id, required String userID, String? userName, required int points}) {
+    return Points._internal(
       id: id == null ? UUID.getUUID() : id,
-      hacklyticsOpen: hacklyticsOpen,
-      participantEmails: participantEmails != null ? List<String>.unmodifiable(participantEmails) : participantEmails);
+      userID: userID,
+      userName: userName,
+      points: points);
   }
   
   bool equals(Object other) {
@@ -74,10 +97,11 @@ class AdminSettings extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AdminSettings &&
+    return other is Points &&
       id == other.id &&
-      _hacklyticsOpen == other._hacklyticsOpen &&
-      DeepCollectionEquality().equals(_participantEmails, other._participantEmails);
+      _userID == other._userID &&
+      _userName == other._userName &&
+      _points == other._points;
   }
   
   @override
@@ -87,10 +111,11 @@ class AdminSettings extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("AdminSettings {");
+    buffer.write("Points {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("hacklyticsOpen=" + (_hacklyticsOpen != null ? _hacklyticsOpen!.toString() : "null") + ", ");
-    buffer.write("participantEmails=" + (_participantEmails != null ? _participantEmails!.toString() : "null") + ", ");
+    buffer.write("userID=" + "$_userID" + ", ");
+    buffer.write("userName=" + "$_userName" + ", ");
+    buffer.write("points=" + (_points != null ? _points!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -98,44 +123,39 @@ class AdminSettings extends Model {
     return buffer.toString();
   }
   
-  AdminSettings copyWith({String? id, bool? hacklyticsOpen, List<String>? participantEmails}) {
-    return AdminSettings._internal(
+  Points copyWith({String? id, String? userID, String? userName, int? points}) {
+    return Points._internal(
       id: id ?? this.id,
-      hacklyticsOpen: hacklyticsOpen ?? this.hacklyticsOpen,
-      participantEmails: participantEmails ?? this.participantEmails);
+      userID: userID ?? this.userID,
+      userName: userName ?? this.userName,
+      points: points ?? this.points);
   }
   
-  AdminSettings.fromJson(Map<String, dynamic> json)  
+  Points.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _hacklyticsOpen = json['hacklyticsOpen'],
-      _participantEmails = json['participantEmails']?.cast<String>(),
+      _userID = json['userID'],
+      _userName = json['userName'],
+      _points = (json['points'] as num?)?.toInt(),
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'hacklyticsOpen': _hacklyticsOpen, 'participantEmails': _participantEmails, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'userID': _userID, 'userName': _userName, 'points': _points, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'hacklyticsOpen': _hacklyticsOpen, 'participantEmails': _participantEmails, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'userID': _userID, 'userName': _userName, 'points': _points, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField HACKLYTICSOPEN = QueryField(fieldName: "hacklyticsOpen");
-  static final QueryField PARTICIPANTEMAILS = QueryField(fieldName: "participantEmails");
+  static final QueryField USERID = QueryField(fieldName: "userID");
+  static final QueryField USERNAME = QueryField(fieldName: "userName");
+  static final QueryField POINTS = QueryField(fieldName: "points");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "AdminSettings";
-    modelSchemaDefinition.pluralName = "AdminSettings";
+    modelSchemaDefinition.name = "Points";
+    modelSchemaDefinition.pluralName = "Points";
     
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.PUBLIC,
-        operations: [
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE,
-          ModelOperation.READ
-        ]),
       AuthRule(
         authStrategy: AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
@@ -146,22 +166,34 @@ class AdminSettings extends Model {
           ModelOperation.CREATE,
           ModelOperation.UPDATE,
           ModelOperation.DELETE
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.PRIVATE,
+        operations: [
+          ModelOperation.READ,
+          ModelOperation.CREATE,
+          ModelOperation.UPDATE
         ])
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: AdminSettings.HACKLYTICSOPEN,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      key: Points.USERID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: AdminSettings.PARTICIPANTEMAILS,
+      key: Points.USERNAME,
       isRequired: false,
-      isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Points.POINTS,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.int)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -180,16 +212,16 @@ class AdminSettings extends Model {
   });
 }
 
-class _AdminSettingsModelType extends ModelType<AdminSettings> {
-  const _AdminSettingsModelType();
+class _PointsModelType extends ModelType<Points> {
+  const _PointsModelType();
   
   @override
-  AdminSettings fromJson(Map<String, dynamic> jsonData) {
-    return AdminSettings.fromJson(jsonData);
+  Points fromJson(Map<String, dynamic> jsonData) {
+    return Points.fromJson(jsonData);
   }
   
   @override
   String modelName() {
-    return 'AdminSettings';
+    return 'Points';
   }
 }
