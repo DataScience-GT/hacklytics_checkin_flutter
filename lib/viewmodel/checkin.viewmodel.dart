@@ -9,7 +9,7 @@ import 'package:hacklytics_checkin_flutter/models/Event.dart';
 import 'package:hacklytics_checkin_flutter/utils/nfc/read.nfc.dart';
 
 class CheckinViewModel extends ChangeNotifier {
-  CheckinViewModel({required this.event, required this.currentUser});
+  CheckinViewModel({required this.event, required this.currentUser}) {}
   final Event event;
   final AmplifyUser currentUser;
 
@@ -81,14 +81,53 @@ class CheckinViewModel extends ChangeNotifier {
   }
 
   Future<void> checkinUser() async {
-    print("checking in user to " + event.name);
-
+    // print("checking in user to " + event.name);
     // check if user is already checked in
     var request = GraphQLRequest(document: '''
-          query getRecord {
-            getRecordByUserAndEvent(user_uuid:"${_user.uuid}", event_uuid:"${event.uuid}")
+          query queryCheckins {
+            listCheckins(filter: {user: {eq: "${_user.username}"}}) {
+              items {
+                user
+                updatedAt
+                createdBy
+                event {
+                  id
+                }
+              }
+            }
           }
           ''');
+
+    var operation = Amplify.API.query(request: request);
+    var response = await operation.response;
+    var data = response.data;
+    var res = responseGetCheckins(data, event);
+
+    if (res.checkedIn) {
+      // user is already checked in
+      _error = "User is already checked in to this event";
+      _loadingUser = false;
+      if (_mounted) notifyListeners();
+      return;
+    }
+
+    String currentUserName = currentUser.attributes
+        .where((a) => a.userAttributeKey.key == "name")
+        .first
+        .value;
+
+    // check the user in
+    var request2 = GraphQLRequest(document: '''
+          mutation createCheckin {
+            createCheckin(input: {user: "${_user.username}", userName: "${_user.attributes["name"]}", createdBy: "${currentUser.username}", createdByName: "$currentUserName", event: "${event.id}"}) {
+              id
+            }
+          }
+          ''');
+
+    var operation2 = Amplify.API.mutate(request: request2);
+    var response2 = await operation2.response;
+    print(response2.data);
 
     _loadingUser = false;
 
@@ -123,6 +162,28 @@ class responseGetUser {
     } else {
       // error
       error = body["error"].toString();
+    }
+  }
+}
+
+class responseGetCheckins {
+  late bool checkedIn = false;
+  late String error = "";
+  responseGetCheckins(String data, Event event) {
+    // print(data);
+    var json = jsonDecode(data);
+    var checkins = json['listCheckins']['items'];
+    if (checkins == null || checkins.isEmpty) {
+      // user is not checked in
+      return;
+    }
+    // check if event matches
+    for (var checkin in checkins) {
+      if (checkin['event']['id'] == event.id) {
+        // user is checked in
+        checkedIn = true;
+        return;
+      }
     }
   }
 }
