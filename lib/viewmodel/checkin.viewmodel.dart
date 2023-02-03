@@ -181,19 +181,24 @@ class CheckinViewModel extends ChangeNotifier {
     } else {
       // update points
       Points p = points.first!;
+      // var request5 = GraphQLRequest(document: '''
+      // mutation updatePoints {
+      //   updatePoints(input: {id: "${p.id}", points: ${p.points + (event.points ?? 0)}}) {
+      //     id
+      //     points
+      //   }
+      // }
+      // ''');
       Points updated = p.copyWith(points: p.points + (event.points ?? 0));
+      await Amplify.DataStore.save(updated);
+      // if (response5.errors.isNotEmpty) {
+      //   _error = response5.errors.first.message;
 
-      var request5 = ModelMutations.update(updated);
-      var operation5 = Amplify.API.mutate(request: request5);
-      var response5 = await operation5.response;
-      if (response5.errors.isNotEmpty) {
-        _error = response5.errors.first.message;
-
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
-      }
-      print(response5.data);
+      //   _loadingUser = false;
+      //   if (_mounted) notifyListeners();
+      //   return;
+      // }
+      // print(response5.data);
     }
 
     _loadingUser = false;
