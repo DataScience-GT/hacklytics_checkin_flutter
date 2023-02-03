@@ -78,7 +78,7 @@ type Points
   ) {
   userID: String!
   userName: String
-  points: Int!
+  points: Int
 }
 
 type ScavengerHunt
