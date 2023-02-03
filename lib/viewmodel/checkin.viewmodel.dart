@@ -137,15 +137,15 @@ class CheckinViewModel extends ChangeNotifier {
 
     var request2 = ModelMutations.create(c);
 
-    // var operation2 = Amplify.API.mutate(request: request2);
-    // var response2 = await operation2.response;
-    // if (response2.errors.isNotEmpty) {
-    //   _error = response2.errors.first.message;
+    var operation2 = Amplify.API.mutate(request: request2);
+    var response2 = await operation2.response;
+    if (response2.errors.isNotEmpty) {
+      _error = response2.errors.first.message;
 
-    //   _loadingUser = false;
-    //   if (_mounted) notifyListeners();
-    //   return;
-    // }
+      _loadingUser = false;
+      if (_mounted) notifyListeners();
+      return;
+    }
 
     // final predicate = Points.USERID.eq(_user.username);
     // var request3 = ModelQueries.list(Points.classType, where: predicate);
@@ -233,7 +233,9 @@ class CheckinViewModel extends ChangeNotifier {
     _user = null;
     _error = "";
     _loadingUser = false;
+    _checkedRecords = false;
     isReading = true;
+    _isHacklytics = false;
     if (_mounted) notifyListeners();
   }
 }
