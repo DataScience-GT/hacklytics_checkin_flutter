@@ -228,6 +228,14 @@ class CheckinViewModel extends ChangeNotifier {
     super.dispose();
     _mounted = false;
   }
+
+  void resetProvider() {
+    _user = null;
+    _error = "";
+    _loadingUser = false;
+    isReading = true;
+    if (_mounted) notifyListeners();
+  }
 }
 
 class responseGetUser {
