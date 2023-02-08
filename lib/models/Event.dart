@@ -33,6 +33,8 @@ class Event extends Model {
   final String? _name;
   final String? _description;
   final bool? _status;
+  final bool? _requireRSVP;
+  final bool? _canRSVP;
   final TemporalDateTime? _start;
   final TemporalDateTime? _end;
   final String? _location;
@@ -70,6 +72,14 @@ class Event extends Model {
     return _status;
   }
   
+  bool? get requireRSVP {
+    return _requireRSVP;
+  }
+  
+  bool? get canRSVP {
+    return _canRSVP;
+  }
+  
   TemporalDateTime? get start {
     return _start;
   }
@@ -98,14 +108,16 @@ class Event extends Model {
     return _updatedAt;
   }
   
-  const Event._internal({required this.id, required name, description, status, start, end, location, points, checkins, createdAt, updatedAt}): _name = name, _description = description, _status = status, _start = start, _end = end, _location = location, _points = points, _checkins = checkins, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Event._internal({required this.id, required name, description, status, requireRSVP, canRSVP, start, end, location, points, checkins, createdAt, updatedAt}): _name = name, _description = description, _status = status, _requireRSVP = requireRSVP, _canRSVP = canRSVP, _start = start, _end = end, _location = location, _points = points, _checkins = checkins, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Event({String? id, required String name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
+  factory Event({String? id, required String name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
       description: description,
       status: status,
+      requireRSVP: requireRSVP,
+      canRSVP: canRSVP,
       start: start,
       end: end,
       location: location,
@@ -125,6 +137,8 @@ class Event extends Model {
       _name == other._name &&
       _description == other._description &&
       _status == other._status &&
+      _requireRSVP == other._requireRSVP &&
+      _canRSVP == other._canRSVP &&
       _start == other._start &&
       _end == other._end &&
       _location == other._location &&
@@ -144,6 +158,8 @@ class Event extends Model {
     buffer.write("name=" + "$_name" + ", ");
     buffer.write("description=" + "$_description" + ", ");
     buffer.write("status=" + (_status != null ? _status!.toString() : "null") + ", ");
+    buffer.write("requireRSVP=" + (_requireRSVP != null ? _requireRSVP!.toString() : "null") + ", ");
+    buffer.write("canRSVP=" + (_canRSVP != null ? _canRSVP!.toString() : "null") + ", ");
     buffer.write("start=" + (_start != null ? _start!.format() : "null") + ", ");
     buffer.write("end=" + (_end != null ? _end!.format() : "null") + ", ");
     buffer.write("location=" + "$_location" + ", ");
@@ -155,12 +171,14 @@ class Event extends Model {
     return buffer.toString();
   }
   
-  Event copyWith({String? id, String? name, String? description, bool? status, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
+  Event copyWith({String? id, String? name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       status: status ?? this.status,
+      requireRSVP: requireRSVP ?? this.requireRSVP,
+      canRSVP: canRSVP ?? this.canRSVP,
       start: start ?? this.start,
       end: end ?? this.end,
       location: location ?? this.location,
@@ -173,6 +191,8 @@ class Event extends Model {
       _name = json['name'],
       _description = json['description'],
       _status = json['status'],
+      _requireRSVP = json['requireRSVP'],
+      _canRSVP = json['canRSVP'],
       _start = json['start'] != null ? TemporalDateTime.fromString(json['start']) : null,
       _end = json['end'] != null ? TemporalDateTime.fromString(json['end']) : null,
       _location = json['location'],
@@ -187,17 +207,19 @@ class Event extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start?.format(), 'end': _end?.format(), 'location': _location, 'points': _points, 'checkins': _checkins?.map((Checkin? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'description': _description, 'status': _status, 'requireRSVP': _requireRSVP, 'canRSVP': _canRSVP, 'start': _start?.format(), 'end': _end?.format(), 'location': _location, 'points': _points, 'checkins': _checkins?.map((Checkin? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'description': _description, 'status': _status, 'start': _start, 'end': _end, 'location': _location, 'points': _points, 'checkins': _checkins, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'name': _name, 'description': _description, 'status': _status, 'requireRSVP': _requireRSVP, 'canRSVP': _canRSVP, 'start': _start, 'end': _end, 'location': _location, 'points': _points, 'checkins': _checkins, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField STATUS = QueryField(fieldName: "status");
+  static final QueryField REQUIRERSVP = QueryField(fieldName: "requireRSVP");
+  static final QueryField CANRSVP = QueryField(fieldName: "canRSVP");
   static final QueryField START = QueryField(fieldName: "start");
   static final QueryField END = QueryField(fieldName: "end");
   static final QueryField LOCATION = QueryField(fieldName: "location");
@@ -244,6 +266,18 @@ class Event extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Event.STATUS,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Event.REQUIRERSVP,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Event.CANRSVP,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.bool)
     ));
