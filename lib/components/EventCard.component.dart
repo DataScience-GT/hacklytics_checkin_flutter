@@ -44,6 +44,8 @@ class EventCard extends StatelessWidget {
       _buildListTileDate("End", event.end),
       // const Divider(),
       _buildListTileStatus("Status", event.status),
+      _buildListTileStatus("Requires RSVP", event.requireRSVP,
+          greenText: "Yes", redText: "No"),
     ]);
   }
 
@@ -56,17 +58,23 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  _buildListTileStatus(String title, bool? status) {
+  _buildListTileStatus(
+    String title,
+    bool? status, {
+    greenText = "Open",
+    redText = "Closed",
+  }) {
     return ListTile(
       title: Text(title),
       subtitle: status != null && status == true
-          ? _buildGreenText("Open")
-          : _buildRedText("Closed"),
+          ? _buildGreenText(greenText)
+          : _buildRedText(redText),
     );
   }
 
   _buildListTileDate(String title, TemporalDateTime? date) {
-    final DateFormat formatter = DateFormat('MMM d, yyyy h:mm a');
+    final DateFormat formatter = DateFormat('EEEEE h:mm a');
+    // final DateFormat formatter = DateFormat('MMM d, yyyy h:mm a');
     // format date
     // String formattedDate =
     //     date != null ? formatter.format(date as DateTime) : "";

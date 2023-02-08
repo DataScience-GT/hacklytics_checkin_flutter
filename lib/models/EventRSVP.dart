@@ -19,21 +19,18 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Checkin type in your schema. */
+/** This is an auto generated class representing the EventRSVP type in your schema. */
 @immutable
-class Checkin extends Model {
-  static const classType = const _CheckinModelType();
+class EventRSVP extends Model {
+  static const classType = const _EventRSVPModelType();
   final String id;
-  final String? _createdBy;
-  final String? _createdByName;
-  final String? _user;
+  final String? _userID;
   final String? _userName;
-  final Event? _event;
+  final String? _eventID;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -45,35 +42,9 @@ class Checkin extends Model {
     return id;
   }
   
-  String get createdBy {
+  String get userID {
     try {
-      return _createdBy!;
-    } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
-  }
-  
-  String get createdByName {
-    try {
-      return _createdByName!;
-    } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
-  }
-  
-  String get user {
-    try {
-      return _user!;
+      return _userID!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -97,9 +68,9 @@ class Checkin extends Model {
     }
   }
   
-  Event get event {
+  String get eventID {
     try {
-      return _event!;
+      return _eventID!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -118,16 +89,14 @@ class Checkin extends Model {
     return _updatedAt;
   }
   
-  const Checkin._internal({required this.id, required createdBy, required createdByName, required user, required userName, required event, createdAt, updatedAt}): _createdBy = createdBy, _createdByName = createdByName, _user = user, _userName = userName, _event = event, _createdAt = createdAt, _updatedAt = updatedAt;
+  const EventRSVP._internal({required this.id, required userID, required userName, required eventID, createdAt, updatedAt}): _userID = userID, _userName = userName, _eventID = eventID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Checkin({String? id, required String createdBy, required String createdByName, required String user, required String userName, required Event event}) {
-    return Checkin._internal(
+  factory EventRSVP({String? id, required String userID, required String userName, required String eventID}) {
+    return EventRSVP._internal(
       id: id == null ? UUID.getUUID() : id,
-      createdBy: createdBy,
-      createdByName: createdByName,
-      user: user,
+      userID: userID,
       userName: userName,
-      event: event);
+      eventID: eventID);
   }
   
   bool equals(Object other) {
@@ -137,13 +106,11 @@ class Checkin extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Checkin &&
+    return other is EventRSVP &&
       id == other.id &&
-      _createdBy == other._createdBy &&
-      _createdByName == other._createdByName &&
-      _user == other._user &&
+      _userID == other._userID &&
       _userName == other._userName &&
-      _event == other._event;
+      _eventID == other._eventID;
   }
   
   @override
@@ -153,13 +120,11 @@ class Checkin extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("Checkin {");
+    buffer.write("EventRSVP {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("createdBy=" + "$_createdBy" + ", ");
-    buffer.write("createdByName=" + "$_createdByName" + ", ");
-    buffer.write("user=" + "$_user" + ", ");
+    buffer.write("userID=" + "$_userID" + ", ");
     buffer.write("userName=" + "$_userName" + ", ");
-    buffer.write("event=" + (_event != null ? _event!.toString() : "null") + ", ");
+    buffer.write("eventID=" + "$_eventID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -167,47 +132,37 @@ class Checkin extends Model {
     return buffer.toString();
   }
   
-  Checkin copyWith({String? id, String? createdBy, String? createdByName, String? user, String? userName, Event? event}) {
-    return Checkin._internal(
+  EventRSVP copyWith({String? id, String? userID, String? userName, String? eventID}) {
+    return EventRSVP._internal(
       id: id ?? this.id,
-      createdBy: createdBy ?? this.createdBy,
-      createdByName: createdByName ?? this.createdByName,
-      user: user ?? this.user,
+      userID: userID ?? this.userID,
       userName: userName ?? this.userName,
-      event: event ?? this.event);
+      eventID: eventID ?? this.eventID);
   }
   
-  Checkin.fromJson(Map<String, dynamic> json)  
+  EventRSVP.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _createdBy = json['createdBy'],
-      _createdByName = json['createdByName'],
-      _user = json['user'],
+      _userID = json['userID'],
       _userName = json['userName'],
-      _event = json['event']?['serializedData'] != null
-        ? Event.fromJson(new Map<String, dynamic>.from(json['event']['serializedData']))
-        : null,
+      _eventID = json['eventID'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'createdBy': _createdBy, 'createdByName': _createdByName, 'user': _user, 'userName': _userName, 'event': _event?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'userID': _userID, 'userName': _userName, 'eventID': _eventID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'createdBy': _createdBy, 'createdByName': _createdByName, 'user': _user, 'userName': _userName, 'event': _event, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'userID': _userID, 'userName': _userName, 'eventID': _eventID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField CREATEDBY = QueryField(fieldName: "createdBy");
-  static final QueryField CREATEDBYNAME = QueryField(fieldName: "createdByName");
-  static final QueryField USER = QueryField(fieldName: "user");
+  static final QueryField USERID = QueryField(fieldName: "userID");
   static final QueryField USERNAME = QueryField(fieldName: "userName");
-  static final QueryField EVENT = QueryField(
-    fieldName: "event",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Event'));
+  static final QueryField EVENTID = QueryField(fieldName: "eventID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Checkin";
-    modelSchemaDefinition.pluralName = "Checkins";
+    modelSchemaDefinition.name = "EventRSVP";
+    modelSchemaDefinition.pluralName = "EventRSVPS";
     
     modelSchemaDefinition.authRules = [
       AuthRule(
@@ -222,10 +177,13 @@ class Checkin extends Model {
           ModelOperation.DELETE
         ]),
       AuthRule(
-        authStrategy: AuthStrategy.PRIVATE,
+        authStrategy: AuthStrategy.OWNER,
+        ownerField: "owner",
+        identityClaim: "cognito:username",
+        provider: AuthRuleProvider.USERPOOLS,
         operations: [
-          ModelOperation.CREATE,
           ModelOperation.READ,
+          ModelOperation.CREATE,
           ModelOperation.UPDATE,
           ModelOperation.DELETE
         ])
@@ -234,34 +192,21 @@ class Checkin extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Checkin.CREATEDBY,
+      key: EventRSVP.USERID,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Checkin.CREATEDBYNAME,
+      key: EventRSVP.USERNAME,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Checkin.USER,
+      key: EventRSVP.EVENTID,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Checkin.USERNAME,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-      key: Checkin.EVENT,
-      isRequired: true,
-      targetName: 'eventCheckinsId',
-      ofModelName: 'Event'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -280,16 +225,16 @@ class Checkin extends Model {
   });
 }
 
-class _CheckinModelType extends ModelType<Checkin> {
-  const _CheckinModelType();
+class _EventRSVPModelType extends ModelType<EventRSVP> {
+  const _EventRSVPModelType();
   
   @override
-  Checkin fromJson(Map<String, dynamic> jsonData) {
-    return Checkin.fromJson(jsonData);
+  EventRSVP fromJson(Map<String, dynamic> jsonData) {
+    return EventRSVP.fromJson(jsonData);
   }
   
   @override
   String modelName() {
-    return 'Checkin';
+    return 'EventRSVP';
   }
 }

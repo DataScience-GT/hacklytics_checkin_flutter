@@ -23,6 +23,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'AdminSettings.dart';
 import 'Checkin.dart';
 import 'Event.dart';
+import 'EventRSVP.dart';
 import 'Points.dart';
 import 'ScavengerHunt.dart';
 import 'ScavengerHuntCheckin.dart';
@@ -30,15 +31,16 @@ import 'ScavengerHuntCheckin.dart';
 export 'AdminSettings.dart';
 export 'Checkin.dart';
 export 'Event.dart';
+export 'EventRSVP.dart';
 export 'Points.dart';
 export 'ScavengerHunt.dart';
 export 'ScavengerHuntCheckin.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "011fd582fc955d92c04e4469c7437e23";
+  String version = "b4aae938e90bcef4c9683ea82285c203";
   @override
-  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema, Points.schema, ScavengerHunt.schema, ScavengerHuntCheckin.schema];
+  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema, EventRSVP.schema, Points.schema, ScavengerHunt.schema, ScavengerHuntCheckin.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -53,6 +55,8 @@ class ModelProvider implements ModelProviderInterface {
         return Checkin.classType;
       case "Event":
         return Event.classType;
+      case "EventRSVP":
+        return EventRSVP.classType;
       case "Points":
         return Points.classType;
       case "ScavengerHunt":

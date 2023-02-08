@@ -148,7 +148,7 @@ class ScavengerHuntCheckin extends Model {
       AuthRule(
         authStrategy: AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
-        groups: [ "Administrator" ],
+        groups: [ "Administrator", "Scavenger" ],
         provider: AuthRuleProvider.USERPOOLS,
         operations: [
           ModelOperation.READ,
