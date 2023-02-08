@@ -34,6 +34,14 @@ exports.handler = async (event) => {
     });
     var users = x.Users;
     if (users.length > 0) {
+      users = users.map((user) => {
+        return {
+          username: user.Username,
+          email: user.Attributes.find((attr) => attr.Name === "email").Value,
+          name: user.Attributes.find((attr) => attr.Name === "name").Value,
+          enabled: user.Enabled,
+        };
+      });
       return JSON.stringify({
         statusCode: 200,
         //  Uncomment below to enable CORS requests
@@ -41,7 +49,7 @@ exports.handler = async (event) => {
         //      "Access-Control-Allow-Origin": "*",
         //      "Access-Control-Allow-Headers": "*"
         //  },
-        body: { ok: 1, users: users },
+        body: { ok: 1, userCount: users.length, users: users },
       });
     } else {
       return JSON.stringify({
