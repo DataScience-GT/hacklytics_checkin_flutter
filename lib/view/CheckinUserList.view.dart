@@ -198,7 +198,8 @@ class FakeCheckin {
   }
 
   _loadDateString() {
-    final DateFormat formatter = DateFormat('MMM d, yyyy h:mm a');
+    // final DateFormat formatter = DateFormat('MMM d, yyyy h:mm a');
+    final DateFormat formatter = DateFormat('EEEEE h:mm a');
     createdAtString = formatter.format(createdAt);
   }
 }
