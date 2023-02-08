@@ -115,6 +115,61 @@ class CheckinViewModel extends ChangeNotifier {
       return;
     }
 
+    // check for rsvp
+    if (event.requireRSVP == true) {
+      // check if user has rsvp'd
+      var rsvps = await Amplify.DataStore.query(EventRSVP.classType,
+          where: EventRSVP.EVENTID
+              .eq(event.id)
+              .and(EventRSVP.USERID.eq(_user.username)));
+
+      if (rsvps.isEmpty) {
+        // user has not rsvp'd
+        _error = "User has not RSVP'd to this event";
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
+      }
+
+      // _loadingUser = false;
+      // if (_mounted) notifyListeners();
+      // return;
+      // var request = ModelQueries.list(EventRSVP.classType, where: )
+
+      // var request = GraphQLRequest(document: '''
+      //     query queryRSVPs {
+      //       listEventRSVPS(filter: {and: {userID: {eq: "${_user.username}"}, eventID: {eq: "${event.id}"}}}) {
+      //         items {
+      //           id
+      //           eventID
+      //           userName
+      //           userID
+      //           deleted:_deleted
+      //         }
+      //       }
+      //     }
+      //     ''');
+
+      // var operation = Amplify.API.query(request: request);
+      // var response = await operation.response;
+      // if (response.errors.isNotEmpty) {
+      //   _error = response.errors[0].message;
+      //   _loadingUser = false;
+      //   if (_mounted) notifyListeners();
+      //   return;
+      // }
+      // var data = response.data;
+      // var res = responseGetRsvp(data, event);
+
+      // if (!res.rsvped) {
+      //   // user is not rsvp'd
+      //   _error = "User is not RSVP'd to this event";
+      //   _loadingUser = false;
+      //   if (_mounted) notifyListeners();
+      //   return;
+      // }
+    }
+
     String currentUserName = currentUser.attributes
         .where((a) => a.userAttributeKey.key == "name")
         .first
@@ -286,3 +341,34 @@ class responseGetCheckins {
     }
   }
 }
+
+// class responseGetRsvp {
+//   late bool rsvped = false;
+//   late String error = "";
+//   responseGetRsvp(String data, Event event) {
+//     // print(data);
+//     var json = jsonDecode(data);
+//     var rsvps = json['listEventRSVPS']['items'];
+//     print(rsvps);
+//     if (rsvps == null || rsvps.isEmpty) {
+//       // user is not rsvped in
+//       return;
+//     } else {
+//       for (var rsvp in rsvps) {
+//         if (rsvp['deleted'] == false) {
+//           // user is rsvped in
+//           rsvped = true;
+//           return;
+//         }
+//       }
+//     }
+//     // // check if event matches
+//     // for (var checkin in checkins) {
+//     //   if (checkin['event']['id'] == event.id) {
+//     //     // user is checked in
+//     //     checkedIn = true;
+//     //     return;
+//     //   }
+//     // }
+//   }
+// }
