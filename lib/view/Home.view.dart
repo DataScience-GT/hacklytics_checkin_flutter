@@ -162,20 +162,33 @@ class _HomeViewState extends State<HomeView> {
                     itemCount: _events.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Row(children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Text(_events[index].name),
-                          ),
-                          Chip(
-                            label: _events[index].status == true
-                                ? const Text("open")
-                                : const Text("closed"),
-                            backgroundColor: _events[index].status == true
-                                ? Colors.green.shade500
-                                : Colors.red.shade500,
-                          )
-                        ]),
+                        leading: Chip(
+                          label: _events[index].status == true
+                              ? const Text("open")
+                              : const Text("closed"),
+                          backgroundColor: _events[index].status == true
+                              ? Colors.green.shade500
+                              : Colors.red.shade500,
+                        ),
+                        title: Text(_events[index].name),
+                        // title: Flexible(
+                        //   child: Row(children: [
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 8),
+                        //       child: Text(
+                        //         _events[index].name,
+                        //       ),
+                        //     ),
+                        //     Chip(
+                        //       label: _events[index].status == true
+                        //           ? const Text("open")
+                        //           : const Text("closed"),
+                        //       backgroundColor: _events[index].status == true
+                        //           ? Colors.green.shade500
+                        //           : Colors.red.shade500,
+                        //     )
+                        //   ]),
+                        // ),
                         subtitle: _events[index].description != null &&
                                 _events[index].description!.isNotEmpty
                             ? Text(_events[index].description ?? "")
