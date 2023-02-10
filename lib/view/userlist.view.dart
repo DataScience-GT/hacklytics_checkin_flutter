@@ -84,12 +84,14 @@ class _UserListViewState extends State<UserListView> {
                                       setState(() {
                                         _error = error;
                                         _loading = false;
+                                        currentSearch = "";
                                       });
                                     } else {
                                       setState(() {
                                         _users = data;
                                         // _filteredUsers = data;
                                         _loading = false;
+                                        currentSearch = "";
                                       });
                                     }
                                   });

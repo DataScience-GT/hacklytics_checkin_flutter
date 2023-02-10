@@ -11,9 +11,10 @@ const AWS = require("aws-sdk");
  */
 exports.handler = async (event) => {
   try {
+    // console.log(event);
     var params = {
       UserPoolId: process.env.AUTH_HACKLYTICSPORTAL2023_USERPOOLID,
-      AttributesToGet: ["name"],
+      AttributesToGet: ["name", "email"],
     };
 
     AWS.config.update({
@@ -36,7 +37,9 @@ exports.handler = async (event) => {
     if (users.length > 0) {
       var user =
         users.filter((x) =>
-          x?.attributes?.name?.toLowerCase().includes(event.arguments.userName)
+          x?.Attributes?.find((y) => y.Name === "name")
+            ?.Value?.toLowerCase()
+            .includes(event.arguments.userName.toLowerCase())
         ) ?? false;
       if (user) {
         return JSON.stringify({

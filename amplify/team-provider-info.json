@@ -66,7 +66,7 @@
         },
         "hacklyticsportalGetUserByName": {
           "deploymentBucketName": "amplify-amplify0f0acd1e2a0b4-staging-14346-deployment",
-          "s3Key": "amplify-builds/hacklyticsportalGetUserByName-78617667534435366f48-build.zip"
+          "s3Key": "amplify-builds/hacklyticsportalGetUserByName-41677a75417a33755a6d-build.zip"
         }
       }
     }
