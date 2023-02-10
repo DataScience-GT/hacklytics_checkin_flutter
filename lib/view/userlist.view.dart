@@ -44,6 +44,20 @@ class _UserListViewState extends State<UserListView> {
         appBar: AppBar(
           title: const Text("Users"),
         ),
+        floatingActionButton: _error.isEmpty
+            ? null
+            : FloatingActionButton.extended(
+                onPressed: () {
+                  setState(() {
+                    _error = "";
+                    _loading = false;
+                    currentSearch = "";
+                    _users = [];
+                  });
+                },
+                label: const Text("Restart"),
+                icon: const Icon(Icons.refresh),
+              ),
         body: GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
