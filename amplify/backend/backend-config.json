@@ -95,6 +95,20 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "hacklyticsportalGetUserByName": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "hacklyticsportal2023"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
