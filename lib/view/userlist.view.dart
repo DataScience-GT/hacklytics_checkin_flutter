@@ -143,7 +143,7 @@ class ResponseListUsers {
       List<dynamic> usersStr = body['users'];
 
       for (var userStr in usersStr) {
-        User user = User.v2(userStr);
+        User user = User(userStr);
         users.add(user);
       }
     } else {

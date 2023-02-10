@@ -45,14 +45,14 @@ class User {
       }
     }
   }
-  User.v2(userData) {
-    username = userData['username'];
-    censoredUsername =
-        '${username.substring(0, usernameCensorLength)}...${username.substring(username.length - usernameCensorLength)}';
-    attributes['name'] = userData['name'];
-    attributes['email'] = userData['email'];
-    enabled = userData['enabled'];
-  }
+  // User.v2(userData) {
+  //   username = userData['username'];
+  //   censoredUsername =
+  //       '${username.substring(0, usernameCensorLength)}...${username.substring(username.length - usernameCensorLength)}';
+  //   attributes['name'] = userData['name'];
+  //   attributes['email'] = userData['email'];
+  //   enabled = userData['enabled'];
+  // }
 
   @override
   String toString() {

@@ -274,19 +274,21 @@ class CheckinViewModel extends ChangeNotifier {
     // }
 
     // create user points
-    Points p = Points(
-        userID: _user.username,
-        points: event.points ?? 0,
-        userName: _user.attributes["name"]);
-    var request4 = ModelMutations.create(p);
-    var operation4 = Amplify.API.mutate(request: request4);
-    var response4 = await operation4.response;
-    if (response4.errors.isNotEmpty) {
-      _error = response4.errors.first.message;
+    if (event.points != null) {
+      Points p = Points(
+          userID: _user.username,
+          points: event.points ?? 0,
+          userName: _user.attributes["name"]);
+      var request4 = ModelMutations.create(p);
+      var operation4 = Amplify.API.mutate(request: request4);
+      var response4 = await operation4.response;
+      if (response4.errors.isNotEmpty) {
+        _error = response4.errors.first.message;
 
-      _loadingUser = false;
-      if (_mounted) notifyListeners();
-      return;
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
+      }
     }
 
     _loadingUser = false;
