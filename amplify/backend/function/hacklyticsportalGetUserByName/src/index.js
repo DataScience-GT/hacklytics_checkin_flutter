@@ -11,9 +11,11 @@ const AWS = require("aws-sdk");
  */
 exports.handler = async (event) => {
   try {
+    // console.log(event);
     var params = {
       UserPoolId: process.env.AUTH_HACKLYTICSPORTAL2023_USERPOOLID,
       AttributesToGet: ["name", "email"],
+      Filter: `name ^= "${event.arguments.userName}"`,
     };
 
     AWS.config.update({
@@ -34,18 +36,36 @@ exports.handler = async (event) => {
     });
     var users = x.Users;
     if (users.length > 0) {
-      return JSON.stringify({
-        statusCode: 200,
-        //  Uncomment below to enable CORS requests
-        //  headers: {
-        //      "Access-Control-Allow-Origin": "*",
-        //      "Access-Control-Allow-Headers": "*"
-        //  },
-        body: { ok: 1, users: users },
-      });
+    //   var user =
+    //     users.filter((x) =>
+    //       x?.Attributes?.find((y) => y.Name === "name")
+    //         ?.Value?.toLowerCase()
+    //         .includes(event.arguments.userName.toLowerCase())
+    //     ) ?? false;
+      if (users) {
+        return JSON.stringify({
+          statusCode: 200,
+          //  Uncomment below to enable CORS requests
+          //  headers: {
+          //      "Access-Control-Allow-Origin": "*",
+          //      "Access-Control-Allow-Headers": "*"
+          //  },
+          body: { ok: 1, users: users },
+        });
+      } else {
+        return JSON.stringify({
+          statusCode: 400,
+          //  Uncomment below to enable CORS requests
+          //  headers: {
+          //      "Access-Control-Allow-Origin": "*",
+          //      "Access-Control-Allow-Headers": "*"
+          //  },
+          body: { ok: 0, error: "User not found." },
+        });
+      }
     } else {
       return JSON.stringify({
-        statusCode: 400,
+        statusCode: 500,
         //  Uncomment below to enable CORS requests
         //  headers: {
         //      "Access-Control-Allow-Origin": "*",

@@ -22,25 +22,29 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'AdminSettings.dart';
 import 'Checkin.dart';
+import 'ClaimShirt.dart';
 import 'Event.dart';
 import 'EventRSVP.dart';
+import 'Log.dart';
 import 'Points.dart';
 import 'ScavengerHunt.dart';
 import 'ScavengerHuntCheckin.dart';
 
 export 'AdminSettings.dart';
 export 'Checkin.dart';
+export 'ClaimShirt.dart';
 export 'Event.dart';
 export 'EventRSVP.dart';
+export 'Log.dart';
 export 'Points.dart';
 export 'ScavengerHunt.dart';
 export 'ScavengerHuntCheckin.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "b4aae938e90bcef4c9683ea82285c203";
+  String version = "c49523e8244e726e6e2d25ff0fec2a07";
   @override
-  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, Event.schema, EventRSVP.schema, Points.schema, ScavengerHunt.schema, ScavengerHuntCheckin.schema];
+  List<ModelSchema> modelSchemas = [AdminSettings.schema, Checkin.schema, ClaimShirt.schema, Event.schema, EventRSVP.schema, Log.schema, Points.schema, ScavengerHunt.schema, ScavengerHuntCheckin.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -53,10 +57,14 @@ class ModelProvider implements ModelProviderInterface {
         return AdminSettings.classType;
       case "Checkin":
         return Checkin.classType;
+      case "ClaimShirt":
+        return ClaimShirt.classType;
       case "Event":
         return Event.classType;
       case "EventRSVP":
         return EventRSVP.classType;
+      case "Log":
+        return Log.classType;
       case "Points":
         return Points.classType;
       case "ScavengerHunt":

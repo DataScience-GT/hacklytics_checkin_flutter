@@ -207,56 +207,74 @@ class CheckinViewModel extends ChangeNotifier {
     // var operation3 = Amplify.API.query(request: request3);
     // var response3 = await operation3.response;
     // get user points
-    var request3 = GraphQLRequest(document: '''
-          query queryPoints {
-            listPoints(filter: {userID: {eq: "${_user.username}"}}) {
-              items {
-                id
-                userID
-                points
-                version: _version
-              }
-            }
-          }
-          ''');
-    var operation3 = Amplify.API.query(request: request3);
-    var response3 = await operation3.response;
+    // var request3 = GraphQLRequest(document: '''
+    //       query queryPoints {
+    //         listPoints(filter: {userID: {eq: "${_user.username}"}}) {
+    //           items {
+    //             id
+    //             userID
+    //             points
+    //             version: _version
+    //           }
+    //         }
+    //       }
+    //       ''');
+    // var operation3 = Amplify.API.query(request: request3);
+    // var response3 = await operation3.response;
 
-    if (response3.errors.isNotEmpty) {
-      _error = response3.errors.first.message;
+    // if (response3.errors.isNotEmpty) {
+    //   _error = response3.errors.first.message;
 
-      _loadingUser = false;
-      if (_mounted) notifyListeners();
-      return;
-    }
+    //   _loadingUser = false;
+    //   if (_mounted) notifyListeners();
+    //   return;
+    // }
 
-    var pointsJson = jsonDecode(response3.data);
-    var points = pointsJson["listPoints"]["items"];
+    // var pointsJson = jsonDecode(response3.data);
+    // var points = pointsJson["listPoints"]["items"];
 
-    if (points.isNotEmpty) {
-      // update points
-      var p = points.first!;
+    // if (points.isNotEmpty) {
+    //   // update points
+    //   var p = points.first!;
 
-      var request4 = GraphQLRequest(document: '''
-      mutation updatePoints {
-        updatePoints(input: {id: "${p["id"]}", points: ${p["points"] + (event.points ?? 0)}, _version: ${p["version"]}}) {
-          id
-          points
-        }
-      }
-      ''');
-      var operation4 = Amplify.API.mutate(request: request4);
-      var response4 = await operation4.response;
+    //   var request4 = GraphQLRequest(document: '''
+    //   mutation updatePoints {
+    //     updatePoints(input: {id: "${p["id"]}", points: ${p["points"] + (event.points ?? 0)}, _version: ${p["version"]}}) {
+    //       id
+    //       points
+    //     }
+    //   }
+    //   ''');
+    //   var operation4 = Amplify.API.mutate(request: request4);
+    //   var response4 = await operation4.response;
 
-      if (response4.errors.isNotEmpty) {
-        _error = response4.errors.first.message;
+    //   if (response4.errors.isNotEmpty) {
+    //     _error = response4.errors.first.message;
 
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
-      }
-    } else {
-      // create new points
+    //     _loadingUser = false;
+    //     if (_mounted) notifyListeners();
+    //     return;
+    //   }
+    // } else {
+    //   // create new points
+    //   Points p = Points(
+    //       userID: _user.username,
+    //       points: event.points ?? 0,
+    //       userName: _user.attributes["name"]);
+    //   var request4 = ModelMutations.create(p);
+    //   var operation4 = Amplify.API.mutate(request: request4);
+    //   var response4 = await operation4.response;
+    //   if (response4.errors.isNotEmpty) {
+    //     _error = response4.errors.first.message;
+
+    //     _loadingUser = false;
+    //     if (_mounted) notifyListeners();
+    //     return;
+    //   }
+    // }
+
+    // create user points
+    if (event.points != null) {
       Points p = Points(
           userID: _user.username,
           points: event.points ?? 0,
