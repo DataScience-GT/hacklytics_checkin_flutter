@@ -109,6 +109,8 @@ class CheckinViewModel extends ChangeNotifier {
       // if (_mounted) notifyListeners();
       return true;
     }
+
+    return false;
   }
 
   getUser(Function(dynamic data, dynamic error) callback) async {
