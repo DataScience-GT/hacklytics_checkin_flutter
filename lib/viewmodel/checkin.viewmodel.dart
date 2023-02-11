@@ -74,6 +74,43 @@ class CheckinViewModel extends ChangeNotifier {
     }
   }
 
+  Future<bool> checkIfUserCheckedIn() async {
+    var request = GraphQLRequest(document: '''
+          query queryCheckins {
+            listCheckins(filter: {user: {eq: "${_user.username}"}}) {
+              items {
+                user
+                updatedAt
+                createdBy
+                event {
+                  id
+                }
+              }
+            }
+          }
+          ''');
+
+    var operation = Amplify.API.query(request: request);
+    var response = await operation.response;
+    var data = response.data;
+    var res = responseGetCheckins(data, event);
+    if (res.error != null && res.error!.isNotEmpty) {
+      _error = res.error!;
+      _loadingUser = false;
+      if (_mounted) notifyListeners();
+      return false;
+    }
+
+    if (res.checkedIn) {
+      // user is already checked in
+      // callback(true, "User is already checked in to this event");
+      // _error = "User is already checked in to this event";
+      // _loadingUser = false;
+      // if (_mounted) notifyListeners();
+      return true;
+    }
+  }
+
   getUser(Function(dynamic data, dynamic error) callback) async {
     // hacklytics record is of the form hacklytics://<id>
     try {
@@ -98,40 +135,13 @@ class CheckinViewModel extends ChangeNotifier {
     try {
       // print("checking in user to " + event.name);
       // check if user is already checked in
-      var request = GraphQLRequest(document: '''
-          query queryCheckins {
-            listCheckins(filter: {user: {eq: "${_user.username}"}}) {
-              items {
-                user
-                updatedAt
-                createdBy
-                event {
-                  id
-                }
-              }
-            }
-          }
-          ''');
-
-      var operation = Amplify.API.query(request: request);
-      var response = await operation.response;
-      var data = response.data;
-      var res = responseGetCheckins(data, event);
-      if (res.error != null && res.error!.isNotEmpty) {
-        _error = res.error!;
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
-      }
-
-      if (res.checkedIn) {
-        // user is already checked in
+      var res1 = await checkIfUserCheckedIn();
+      if (res1 == true) {
         _error = "User is already checked in to this event";
         _loadingUser = false;
         if (_mounted) notifyListeners();
         return;
       }
-
       // check for rsvp
       if (event.requireRSVP == true) {
         // check if user has rsvp'd
@@ -200,25 +210,37 @@ class CheckinViewModel extends ChangeNotifier {
       //         }
       //       }
       //       ''');
-      Checkin c = Checkin(
-          user: _user.username,
-          userName: _user.attributes["name"],
-          createdBy: currentUser.username,
-          createdByName: currentUserName,
-          event: event);
 
-      var request2 = ModelMutations.create(c);
-      var operation2 = Amplify.API.mutate(request: request2);
-      var response2 = await operation2.response;
+      // attempt to check in until it works
+      var checkinWorked = false;
 
-      print(response2.data);
-      print(response2.errors);
-      if (response2.errors.isNotEmpty) {
-        _error = response2.errors.first.message;
+      while (!checkinWorked) {
+        Checkin c = Checkin(
+            user: _user.username,
+            userName: _user.attributes["name"],
+            createdBy: currentUser.username,
+            createdByName: currentUserName,
+            event: event);
 
-        _loadingUser = false;
-        if (_mounted) notifyListeners();
-        return;
+        var request2 = ModelMutations.create(c);
+        var operation2 = Amplify.API.mutate(request: request2);
+        var response2 = await operation2.response;
+
+        print(response2.data);
+        print(response2.errors);
+        if (response2.errors.isNotEmpty) {
+          _error = response2.errors.first.message;
+
+          _loadingUser = false;
+          if (_mounted) notifyListeners();
+          return;
+        }
+
+        // check if user is already checked in
+        var res1 = await checkIfUserCheckedIn();
+        if (res1 == true) {
+          checkinWorked = true;
+        }
       }
 
       // final predicate = Points.USERID.eq(_user.username);
