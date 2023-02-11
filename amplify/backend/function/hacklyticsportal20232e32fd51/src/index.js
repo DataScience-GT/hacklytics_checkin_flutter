@@ -14,6 +14,7 @@ exports.handler = async (event) => {
     var params = {
       UserPoolId: process.env.AUTH_HACKLYTICSPORTAL2023_USERPOOLID,
       AttributesToGet: ["name"],
+      Filter: `username = "${event.arguments.user_uuid}"`,
     };
 
     AWS.config.update({
