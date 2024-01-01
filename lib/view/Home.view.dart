@@ -228,7 +228,7 @@ class _HomeViewState extends State<HomeView> {
       if (authSessions.isSignedIn) {
         final accessToken =
             (authSessions as CognitoAuthSession).userPoolTokens?.accessToken;
-        if (accessToken == null || accessToken.isEmpty) {
+        if (accessToken == null || accessToken.raw.isEmpty) {
           callback(Status.withError(error: "No access token."));
           return;
         }
@@ -236,7 +236,7 @@ class _HomeViewState extends State<HomeView> {
         var attributes = await Amplify.Auth.fetchUserAttributes();
 
         setState(() {
-          _user = AmplifyUser(accessToken: accessToken, attributes: attributes);
+          _user = AmplifyUser(accessToken: accessToken.raw, attributes: attributes);
         });
 
         callback(Status.withSuccess(message: "Got user info."));

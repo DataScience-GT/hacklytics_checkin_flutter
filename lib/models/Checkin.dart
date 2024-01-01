@@ -20,13 +20,11 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
 /** This is an auto generated class representing the Checkin type in your schema. */
-@immutable
-class Checkin extends Model {
+class Checkin extends amplify_core.Model {
   static const classType = const _CheckinModelType();
   final String id;
   final String? _createdBy;
@@ -34,8 +32,8 @@ class Checkin extends Model {
   final String? _user;
   final String? _userName;
   final Event? _event;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -49,10 +47,10 @@ class Checkin extends Model {
     try {
       return _createdBy!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -62,10 +60,10 @@ class Checkin extends Model {
     try {
       return _createdByName!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -75,10 +73,10 @@ class Checkin extends Model {
     try {
       return _user!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -88,10 +86,10 @@ class Checkin extends Model {
     try {
       return _userName!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -101,20 +99,20 @@ class Checkin extends Model {
     try {
       return _event!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -122,7 +120,7 @@ class Checkin extends Model {
   
   factory Checkin({String? id, required String createdBy, required String createdByName, required String user, required String userName, required Event event}) {
     return Checkin._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       createdBy: createdBy,
       createdByName: createdByName,
       user: user,
@@ -177,6 +175,24 @@ class Checkin extends Model {
       event: event ?? this.event);
   }
   
+  Checkin copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? createdBy,
+    ModelFieldValue<String>? createdByName,
+    ModelFieldValue<String>? user,
+    ModelFieldValue<String>? userName,
+    ModelFieldValue<Event>? event
+  }) {
+    return Checkin._internal(
+      id: id == null ? this.id : id.value,
+      createdBy: createdBy == null ? this.createdBy : createdBy.value,
+      createdByName: createdByName == null ? this.createdByName : createdByName.value,
+      user: user == null ? this.user : user.value,
+      userName: userName == null ? this.userName : userName.value,
+      event: event == null ? this.event : event.value
+    );
+  }
+  
   Checkin.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _createdBy = json['createdBy'],
@@ -186,101 +202,108 @@ class Checkin extends Model {
       _event = json['event']?['serializedData'] != null
         ? Event.fromJson(new Map<String, dynamic>.from(json['event']['serializedData']))
         : null,
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'createdBy': _createdBy, 'createdByName': _createdByName, 'user': _user, 'userName': _userName, 'event': _event?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'createdBy': _createdBy, 'createdByName': _createdByName, 'user': _user, 'userName': _userName, 'event': _event, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'createdBy': _createdBy,
+    'createdByName': _createdByName,
+    'user': _user,
+    'userName': _userName,
+    'event': _event,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField CREATEDBY = QueryField(fieldName: "createdBy");
-  static final QueryField CREATEDBYNAME = QueryField(fieldName: "createdByName");
-  static final QueryField USER = QueryField(fieldName: "user");
-  static final QueryField USERNAME = QueryField(fieldName: "userName");
-  static final QueryField EVENT = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final CREATEDBY = amplify_core.QueryField(fieldName: "createdBy");
+  static final CREATEDBYNAME = amplify_core.QueryField(fieldName: "createdByName");
+  static final USER = amplify_core.QueryField(fieldName: "user");
+  static final USERNAME = amplify_core.QueryField(fieldName: "userName");
+  static final EVENT = amplify_core.QueryField(
     fieldName: "event",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Event'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Event'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Checkin";
     modelSchemaDefinition.pluralName = "Checkins";
     
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.GROUPS,
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
         groups: [ "Administrator" ],
-        provider: AuthRuleProvider.USERPOOLS,
-        operations: [
-          ModelOperation.READ,
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE
+        provider: amplify_core.AuthRuleProvider.USERPOOLS,
+        operations: const [
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.CREATE,
+          amplify_core.ModelOperation.UPDATE,
+          amplify_core.ModelOperation.DELETE
         ]),
-      AuthRule(
-        authStrategy: AuthStrategy.PRIVATE,
-        operations: [
-          ModelOperation.CREATE,
-          ModelOperation.READ,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
+        operations: const [
+          amplify_core.ModelOperation.CREATE,
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.UPDATE,
+          amplify_core.ModelOperation.DELETE
         ])
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Checkin.CREATEDBY,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Checkin.CREATEDBYNAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Checkin.USER,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Checkin.USERNAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Checkin.EVENT,
       isRequired: true,
       targetName: 'eventCheckinsId',
       ofModelName: 'Event'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _CheckinModelType extends ModelType<Checkin> {
+class _CheckinModelType extends amplify_core.ModelType<Checkin> {
   const _CheckinModelType();
   
   @override

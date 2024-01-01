@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:amplify_api/amplify_api.dart';
-import 'package:amplify_api/model_mutations.dart';
+// import 'package:amplify_api/model_mutations.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hacklytics_checkin_flutter/model/amplifyuser.dart';
@@ -77,7 +77,7 @@ class CheckinViewModel extends ChangeNotifier {
   Future<bool> checkIfUserCheckedIn() async {
     var request = GraphQLRequest(document: '''
           query queryCheckins {
-            listCheckins(filter: {user: {eq: "${_user.username}"}}) {
+            listCheckins(filter: {user: {eq: "${_user.username}"}}, limit: 10000) {
               items {
                 user
                 updatedAt
@@ -93,6 +93,7 @@ class CheckinViewModel extends ChangeNotifier {
     var operation = Amplify.API.query(request: request);
     var response = await operation.response;
     var data = response.data;
+
     var res = responseGetCheckins(data, event);
     if (res.error != null && res.error!.isNotEmpty) {
       _error = res.error!;
@@ -214,36 +215,32 @@ class CheckinViewModel extends ChangeNotifier {
       //       ''');
 
       // attempt to check in until it works
-      var checkinWorked = false;
+      Checkin c = Checkin(
+          user: _user.username,
+          userName: _user.attributes["name"],
+          createdBy: currentUser.username,
+          createdByName: currentUserName,
+          event: event);
 
-      while (!checkinWorked) {
-        Checkin c = Checkin(
-            user: _user.username,
-            userName: _user.attributes["name"],
-            createdBy: currentUser.username,
-            createdByName: currentUserName,
-            event: event);
+      var request2 = ModelMutations.create(c);
+      var operation2 = Amplify.API.mutate(request: request2);
+      var response2 = await operation2.response;
 
-        var request2 = ModelMutations.create(c);
-        var operation2 = Amplify.API.mutate(request: request2);
-        var response2 = await operation2.response;
+      print(response2.data);
+      print(response2.errors);
+      if (response2.errors.isNotEmpty) {
+        _error = response2.errors.first.message;
 
-        print(response2.data);
-        print(response2.errors);
-        if (response2.errors.isNotEmpty) {
-          _error = response2.errors.first.message;
-
-          _loadingUser = false;
-          if (_mounted) notifyListeners();
-          return;
-        }
-
-        // check if user is already checked in
-        var res1 = await checkIfUserCheckedIn();
-        if (res1 == true) {
-          checkinWorked = true;
-        }
+        _loadingUser = false;
+        if (_mounted) notifyListeners();
+        return;
       }
+
+      // check if user is already checked in
+      // var res1 = await checkIfUserCheckedIn();
+      // if (res1 == true) {
+      //   checkinWorked = true;
+      // }
 
       // final predicate = Points.USERID.eq(_user.username);
       // var request3 = ModelQueries.list(Points.classType, where: predicate);
