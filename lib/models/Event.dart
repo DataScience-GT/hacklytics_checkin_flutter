@@ -20,14 +20,12 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Event type in your schema. */
-@immutable
-class Event extends Model {
+class Event extends amplify_core.Model {
   static const classType = const _EventModelType();
   final String id;
   final String? _name;
@@ -35,13 +33,13 @@ class Event extends Model {
   final bool? _status;
   final bool? _requireRSVP;
   final bool? _canRSVP;
-  final TemporalDateTime? _start;
-  final TemporalDateTime? _end;
+  final amplify_core.TemporalDateTime? _start;
+  final amplify_core.TemporalDateTime? _end;
   final String? _location;
   final int? _points;
   final List<Checkin>? _checkins;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -55,10 +53,10 @@ class Event extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -80,11 +78,11 @@ class Event extends Model {
     return _canRSVP;
   }
   
-  TemporalDateTime? get start {
+  amplify_core.TemporalDateTime? get start {
     return _start;
   }
   
-  TemporalDateTime? get end {
+  amplify_core.TemporalDateTime? get end {
     return _end;
   }
   
@@ -100,19 +98,19 @@ class Event extends Model {
     return _checkins;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
   const Event._internal({required this.id, required name, description, status, requireRSVP, canRSVP, start, end, location, points, checkins, createdAt, updatedAt}): _name = name, _description = description, _status = status, _requireRSVP = requireRSVP, _canRSVP = canRSVP, _start = start, _end = end, _location = location, _points = points, _checkins = checkins, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Event({String? id, required String name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
+  factory Event({String? id, required String name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, amplify_core.TemporalDateTime? start, amplify_core.TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       description: description,
       status: status,
@@ -171,7 +169,7 @@ class Event extends Model {
     return buffer.toString();
   }
   
-  Event copyWith({String? id, String? name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, TemporalDateTime? start, TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
+  Event copyWith({String? id, String? name, String? description, bool? status, bool? requireRSVP, bool? canRSVP, amplify_core.TemporalDateTime? start, amplify_core.TemporalDateTime? end, String? location, int? points, List<Checkin>? checkins}) {
     return Event._internal(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -186,6 +184,34 @@ class Event extends Model {
       checkins: checkins ?? this.checkins);
   }
   
+  Event copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<String?>? description,
+    ModelFieldValue<bool?>? status,
+    ModelFieldValue<bool?>? requireRSVP,
+    ModelFieldValue<bool?>? canRSVP,
+    ModelFieldValue<amplify_core.TemporalDateTime?>? start,
+    ModelFieldValue<amplify_core.TemporalDateTime?>? end,
+    ModelFieldValue<String?>? location,
+    ModelFieldValue<int?>? points,
+    ModelFieldValue<List<Checkin>?>? checkins
+  }) {
+    return Event._internal(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      description: description == null ? this.description : description.value,
+      status: status == null ? this.status : status.value,
+      requireRSVP: requireRSVP == null ? this.requireRSVP : requireRSVP.value,
+      canRSVP: canRSVP == null ? this.canRSVP : canRSVP.value,
+      start: start == null ? this.start : start.value,
+      end: end == null ? this.end : end.value,
+      location: location == null ? this.location : location.value,
+      points: points == null ? this.points : points.value,
+      checkins: checkins == null ? this.checkins : checkins.value
+    );
+  }
+  
   Event.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -193,8 +219,8 @@ class Event extends Model {
       _status = json['status'],
       _requireRSVP = json['requireRSVP'],
       _canRSVP = json['canRSVP'],
-      _start = json['start'] != null ? TemporalDateTime.fromString(json['start']) : null,
-      _end = json['end'] != null ? TemporalDateTime.fromString(json['end']) : null,
+      _start = json['start'] != null ? amplify_core.TemporalDateTime.fromString(json['start']) : null,
+      _end = json['end'] != null ? amplify_core.TemporalDateTime.fromString(json['end']) : null,
       _location = json['location'],
       _points = (json['points'] as num?)?.toInt(),
       _checkins = json['checkins'] is List
@@ -203,133 +229,145 @@ class Event extends Model {
           .map((e) => Checkin.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'description': _description, 'status': _status, 'requireRSVP': _requireRSVP, 'canRSVP': _canRSVP, 'start': _start?.format(), 'end': _end?.format(), 'location': _location, 'points': _points, 'checkins': _checkins?.map((Checkin? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'description': _description, 'status': _status, 'requireRSVP': _requireRSVP, 'canRSVP': _canRSVP, 'start': _start, 'end': _end, 'location': _location, 'points': _points, 'checkins': _checkins, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'name': _name,
+    'description': _description,
+    'status': _status,
+    'requireRSVP': _requireRSVP,
+    'canRSVP': _canRSVP,
+    'start': _start,
+    'end': _end,
+    'location': _location,
+    'points': _points,
+    'checkins': _checkins,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField NAME = QueryField(fieldName: "name");
-  static final QueryField DESCRIPTION = QueryField(fieldName: "description");
-  static final QueryField STATUS = QueryField(fieldName: "status");
-  static final QueryField REQUIRERSVP = QueryField(fieldName: "requireRSVP");
-  static final QueryField CANRSVP = QueryField(fieldName: "canRSVP");
-  static final QueryField START = QueryField(fieldName: "start");
-  static final QueryField END = QueryField(fieldName: "end");
-  static final QueryField LOCATION = QueryField(fieldName: "location");
-  static final QueryField POINTS = QueryField(fieldName: "points");
-  static final QueryField CHECKINS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final NAME = amplify_core.QueryField(fieldName: "name");
+  static final DESCRIPTION = amplify_core.QueryField(fieldName: "description");
+  static final STATUS = amplify_core.QueryField(fieldName: "status");
+  static final REQUIRERSVP = amplify_core.QueryField(fieldName: "requireRSVP");
+  static final CANRSVP = amplify_core.QueryField(fieldName: "canRSVP");
+  static final START = amplify_core.QueryField(fieldName: "start");
+  static final END = amplify_core.QueryField(fieldName: "end");
+  static final LOCATION = amplify_core.QueryField(fieldName: "location");
+  static final POINTS = amplify_core.QueryField(fieldName: "points");
+  static final CHECKINS = amplify_core.QueryField(
     fieldName: "checkins",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Checkin'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Checkin'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Event";
     modelSchemaDefinition.pluralName = "Events";
     
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.GROUPS,
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
         groups: [ "Administrator" ],
-        provider: AuthRuleProvider.USERPOOLS,
-        operations: [
-          ModelOperation.READ,
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE
+        provider: amplify_core.AuthRuleProvider.USERPOOLS,
+        operations: const [
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.CREATE,
+          amplify_core.ModelOperation.UPDATE,
+          amplify_core.ModelOperation.DELETE
         ]),
-      AuthRule(
-        authStrategy: AuthStrategy.PRIVATE,
-        operations: [
-          ModelOperation.READ
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
+        operations: const [
+          amplify_core.ModelOperation.READ
         ])
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.DESCRIPTION,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.STATUS,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.REQUIRERSVP,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.CANRSVP,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.START,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.END,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.LOCATION,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Event.POINTS,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Event.CHECKINS,
       isRequired: false,
       ofModelName: 'Checkin',
       associatedKey: Checkin.EVENT
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _EventModelType extends ModelType<Event> {
+class _EventModelType extends amplify_core.ModelType<Event> {
   const _EventModelType();
   
   @override

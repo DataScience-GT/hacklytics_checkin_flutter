@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:amplify_api/amplify_api.dart';
@@ -23,7 +24,9 @@ class CheckinUserListView extends StatefulWidget {
 class _CheckinUserListState extends State<CheckinUserListView> {
   String _error = "";
   bool _loadingCheckins = true;
+  bool _mounted = true;
   List<FakeCheckin> _checkins = [];
+  late StreamSubscription<GraphQLResponse<dynamic>> stream;
 
   @override
   void initState() {
@@ -35,7 +38,7 @@ class _CheckinUserListState extends State<CheckinUserListView> {
         });
       }
     });
-    subscription.listen((checkin) {
+    stream = subscription.listen((checkin) {
       // print(checkin);
 
       if (checkin.data != null) {
@@ -53,6 +56,13 @@ class _CheckinUserListState extends State<CheckinUserListView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
+    stream.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_loadingCheckins) {
       // get list of checkins
@@ -65,10 +75,11 @@ class _CheckinUserListState extends State<CheckinUserListView> {
             _loadingCheckins = false;
           });
         } else {
-          setState(() {
-            _error = status.error.toString();
-            _loadingCheckins = false;
-          });
+          if (_mounted)
+            setState(() {
+              _error = status.error.toString();
+              _loadingCheckins = false;
+            });
         }
       });
     }
@@ -112,7 +123,8 @@ class _CheckinUserListState extends State<CheckinUserListView> {
   _getExistingCheckins(Function(Status) callback) async {
     try {
       final where = Checkin.EVENT.eq(widget.event.id);
-      final request = ModelQueries.list(Checkin.classType, where: where);
+      final request =
+          ModelQueries.list(Checkin.classType, where: where, limit: 10000);
       final result = await Amplify.API.query(request: request).response;
 
       if (result.data != null) {

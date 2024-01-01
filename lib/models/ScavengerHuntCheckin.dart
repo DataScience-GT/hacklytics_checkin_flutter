@@ -19,19 +19,18 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
 /** This is an auto generated class representing the ScavengerHuntCheckin type in your schema. */
-@immutable
-class ScavengerHuntCheckin extends Model {
+class ScavengerHuntCheckin extends amplify_core.Model {
   static const classType = const _ScavengerHuntCheckinModelType();
   final String id;
   final String? _checkpointID;
   final String? _userID;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -45,10 +44,10 @@ class ScavengerHuntCheckin extends Model {
     try {
       return _checkpointID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -58,20 +57,20 @@ class ScavengerHuntCheckin extends Model {
     try {
       return _userID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -79,7 +78,7 @@ class ScavengerHuntCheckin extends Model {
   
   factory ScavengerHuntCheckin({String? id, required String checkpointID, required String userID}) {
     return ScavengerHuntCheckin._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       checkpointID: checkpointID,
       userID: userID);
   }
@@ -122,79 +121,95 @@ class ScavengerHuntCheckin extends Model {
       userID: userID ?? this.userID);
   }
   
+  ScavengerHuntCheckin copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? checkpointID,
+    ModelFieldValue<String>? userID
+  }) {
+    return ScavengerHuntCheckin._internal(
+      id: id == null ? this.id : id.value,
+      checkpointID: checkpointID == null ? this.checkpointID : checkpointID.value,
+      userID: userID == null ? this.userID : userID.value
+    );
+  }
+  
   ScavengerHuntCheckin.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _checkpointID = json['checkpointID'],
       _userID = json['userID'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'checkpointID': _checkpointID, 'userID': _userID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'checkpointID': _checkpointID, 'userID': _userID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'checkpointID': _checkpointID,
+    'userID': _userID,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField CHECKPOINTID = QueryField(fieldName: "checkpointID");
-  static final QueryField USERID = QueryField(fieldName: "userID");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final CHECKPOINTID = amplify_core.QueryField(fieldName: "checkpointID");
+  static final USERID = amplify_core.QueryField(fieldName: "userID");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "ScavengerHuntCheckin";
     modelSchemaDefinition.pluralName = "ScavengerHuntCheckins";
     
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.GROUPS,
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
         groups: [ "Administrator", "Scavenger" ],
-        provider: AuthRuleProvider.USERPOOLS,
-        operations: [
-          ModelOperation.READ,
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE
+        provider: amplify_core.AuthRuleProvider.USERPOOLS,
+        operations: const [
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.CREATE,
+          amplify_core.ModelOperation.UPDATE,
+          amplify_core.ModelOperation.DELETE
         ]),
-      AuthRule(
-        authStrategy: AuthStrategy.PRIVATE,
-        operations: [
-          ModelOperation.READ,
-          ModelOperation.CREATE
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
+        operations: const [
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.CREATE
         ])
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ScavengerHuntCheckin.CHECKPOINTID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ScavengerHuntCheckin.USERID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _ScavengerHuntCheckinModelType extends ModelType<ScavengerHuntCheckin> {
+class _ScavengerHuntCheckinModelType extends amplify_core.ModelType<ScavengerHuntCheckin> {
   const _ScavengerHuntCheckinModelType();
   
   @override
