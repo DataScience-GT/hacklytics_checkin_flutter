@@ -54,15 +54,13 @@ class _MyAppState extends State<MyApp> {
       signUpForm: SignUpForm.custom(fields: [
         SignUpFormField.email(required: true),
         SignUpFormField.custom(
-            title: 'GT Email',
+            title: 'School Email',
             attributeKey: const CognitoUserAttributeKey.custom('gtemail'),
-            hintText: "Enter your GaTech email",
+            hintText: "Enter your school email",
             validator: ((value) {
-              // if value is not null
               if (value != null && value.isNotEmpty) {
-                // if value is not a valid GT email
-                if (!value.contains('@gatech.edu')) {
-                  return 'Please enter a valid GT email';
+                if (!value.contains('.edu')) {
+                  return 'Please enter a valid school email';
                 }
               }
             })),

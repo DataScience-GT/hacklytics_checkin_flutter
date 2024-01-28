@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -57,44 +59,44 @@ class _HomeViewState extends State<HomeView> {
           : _buildBody(),
       endDrawer: Drawer(
           child: ListView(children: [
-        const DrawerHeader(
-          child: Text("Hacklytics"),
-        ),
-        _loadingUser == false && _error.isEmpty && _user.hasAccess
-            ? Column(children: [
-                ListTile(
-                  title: const Text("General NFC"),
-                  leading: const Icon(Icons.sensors),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const NfcView();
-                    }));
-                  },
-                ),
-                const Divider()
-              ])
-            : const SizedBox(
-                width: 0,
-                height: 0,
-              ),
-        ListTile(
-          title: const Text("Settings"),
-          leading: const Icon(Icons.settings),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return SettingsView(user: _user);
-            }));
-          },
-        ),
-        const Divider(),
-        ListTile(
-          title: const Text("Logout"),
-          leading: const Icon(Icons.logout),
-          onTap: () {
-            Amplify.Auth.signOut();
-          },
-        )
+            const DrawerHeader(
+              child: Text("Hacklytics 2024"),
+            ),
+            _loadingUser == false && _error.isEmpty && _user.hasAccess
+                ? Column(children: [
+                    ListTile(
+                      title: const Text("General NFC"),
+                      leading: const Icon(Icons.sensors),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const NfcView();
+                        }));
+                      },
+                    ),
+                    const Divider()
+                  ])
+                : const SizedBox(
+                    width: 0,
+                    height: 0,
+                  ),
+            ListTile(
+              title: const Text("Settings"),
+              leading: const Icon(Icons.settings),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SettingsView(user: _user);
+                }));
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text("Logout"),
+              leading: const Icon(Icons.logout),
+              onTap: () {
+                Amplify.Auth.signOut();
+              },
+            )
       ])),
     );
   }
@@ -171,32 +173,15 @@ class _HomeViewState extends State<HomeView> {
                               : Colors.red.shade500,
                         ),
                         title: Text(_events[index].name),
-                        // title: Flexible(
-                        //   child: Row(children: [
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 8),
-                        //       child: Text(
-                        //         _events[index].name,
-                        //       ),
-                        //     ),
-                        //     Chip(
-                        //       label: _events[index].status == true
-                        //           ? const Text("open")
-                        //           : const Text("closed"),
-                        //       backgroundColor: _events[index].status == true
-                        //           ? Colors.green.shade500
-                        //           : Colors.red.shade500,
-                        //     )
-                        //   ]),
-                        // ),
                         subtitle: _events[index].description != null &&
                                 _events[index].description!.isNotEmpty
-                            ? Text(_events[index].description ?? "")
+                                && _events[index].start != null &&
+                                _events[index].location != null
+                            ? Text("${_events[index].description ?? ""}\n"
+                            "Location: ${_events[index].location ?? ""}\n")
                             : null,
-                        // enabled: _events[index].status == true,
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
-                          // go to event page
                           // TODO: implement
                           Navigator.push(
                               context,
@@ -232,7 +217,6 @@ class _HomeViewState extends State<HomeView> {
           callback(Status.withError(error: "No access token."));
           return;
         }
-
         var attributes = await Amplify.Auth.fetchUserAttributes();
 
         setState(() {
@@ -244,28 +228,64 @@ class _HomeViewState extends State<HomeView> {
     } catch (err) {
       return callback(Status.withError(error: err));
     }
-    // return callback(Status.withSuccess(message: "Success!"));
   }
 
   getEvents(Function(Status) callback) async {
     try {
-      final request = ModelQueries.list(Event.classType);
-      // final request = GraphQLRequest(
-      //     document: req.document, apiName: "AMAZON_COGNITO_USER_POOLS", variables: );
-      // request.apiName = "hacklyticsportal2023_AMAZON_COGNITO_USER_POOLS";
-      final response = await Amplify.API.query(request: request).response;
+      var request = GraphQLRequest(document: '''
+          query ListEvents(
+            \$limit: Int
+            \$nextToken: String
+          ) {
+            listEvents(
+              limit: \$limit
+              nextToken: \$nextToken
+              filter: {
+                _deleted: {
+                  ne: true
+                }
+              }
+            ) {
+              items {
+                id
+                name
+                description
+                status
+                requireRSVP
+                canRSVP
+                start
+                end
+                location
+                points
+                createdAt
+                updatedAt
+                _version
+                _deleted
+                _lastChangedAt
+              }
+              nextToken
+              startedAt
+            }
+          }
+      ''');
+
+      var operation = Amplify.API.query(request: request);
+      var response = await operation.response;
       if (response.errors.isNotEmpty) {
         return callback(Status.withError(error: response.errors));
       }
-      final events = response.data?.items;
+      var data = response.data;
+      var json = jsonDecode(data);
+      var eventsJson = json['listEvents']['items'];
 
-      if (events != null && events.isNotEmpty) {
+      if (eventsJson != null && eventsJson.isNotEmpty) {
+        List<Event> events = eventsJson.map<Event>((item) {
+          return Event.fromJson(item);
+        }).toList();
         setState(() {
-          _events = events.map((x) => x as Event).toList();
+          _events = events;
         });
       }
-
-      // print('Events: $events');
       return callback(Status.withSuccess(message: "Got events."));
     } on ApiException catch (e) {
       callback(Status.withError(error: e));
